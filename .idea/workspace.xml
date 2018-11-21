@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a438d9d2-2c34-465b-acd4-afe591e9cb02" name="Default" comment="">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/97.pdf" beforeDir="false" />
+>>>>>>> feature
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/completed/['97.txt']-complete.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/completed/['98']-complete.txt" beforeDir="false" afterPath="$PROJECT_DIR$/completed/['98']-complete.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/completed/['99']-complete.txt" beforeDir="false" afterPath="$PROJECT_DIR$/completed/['99']-complete.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/97.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/text/97.txt" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+<<<<<<< HEAD
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+=======
+    <leaf>
+      <file leaf-file-name="Main.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1508">
+              <caret line="759" column="30" lean-forward="true" selection-start-line="759" selection-start-column="30" selection-end-line="759" selection-end-column="30" />
+              <folding>
+                <element signature="e#662#692#0" expanded="true" />
+                <element signature="e#1518#12813#0" />
+                <element signature="e#1672#2364#0" />
+                <element signature="e#2402#2964#0" />
+                <element signature="e#3002#5193#0" />
+                <element signature="e#5233#12032#0" />
+                <element signature="e#12065#12813#0" />
+                <element signature="e#13588#14938#0" />
+                <element signature="e#15329#24745#0" />
+                <element signature="e#24766#26054#0" />
+                <element signature="e#26439#28999#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/my-envs/elevate/Lib/site-packages/kivy/app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="804" column="41" selection-start-line="804" selection-start-column="33" selection-end-line="804" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+>>>>>>> feature
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>complete</find>
+      <find>/complete/</find>
+      <find>Tab</find>
+      <find>var_list</find>
+      <find>buildprogress</find>
+      <find>App.root</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py" />
+        <option value="$PROJECT_DIR$/../ops_automatedingestion_201808/Main.py" />
+        <option value="$PROJECT_DIR$/Main.py" />
+      </list>
+    </option>
+  </component>
+<<<<<<< HEAD
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="923" />
+=======
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="800" />
+    <option name="width" value="800" />
+>>>>>>> feature
+    <option name="height" value="860" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="OCRRepo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OCRRepo" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../GitLab/Blockchain-Project" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.Main">
+    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OCRRepo" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="correct_skew" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OCRRepo" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Main" />
+      <item itemvalue="Python.correct_skew" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Main" />
+        <item itemvalue="Python.correct_skew" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a438d9d2-2c34-465b-acd4-afe591e9cb02" name="Default" comment="" />
+      <created>1534189189271</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1534189189271</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+<<<<<<< HEAD
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11875" />
+=======
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.05375" />
+>>>>>>> feature
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
+<<<<<<< HEAD
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4160105" />
+=======
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.42650917" />
+>>>>>>> feature
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39895013" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+<<<<<<< HEAD
+      <option name="time" value="4" />
+=======
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Main.py</url>
+          <line>59</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Main.py</url>
+          <line>93</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="10" />
+>>>>>>> feature
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="3264">
+          <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+            <element signature="e#1333#2150#0" />
+            <element signature="e#2188#2749#0" />
+            <element signature="e#2787#4978#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ops_automatedingestion_201808/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8755">
+          <caret line="537" column="30" selection-end-line="557" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+=======
+        <state relative-caret-position="11832">
+          <caret line="696" column="28" selection-start-line="696" selection-start-column="28" selection-end-line="696" selection-end-column="28" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+>>>>>>> feature
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/test/CC1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="8" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11747">
+          <caret line="691" column="26" lean-forward="true" selection-start-line="691" selection-end-line="691" selection-end-column="26" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/test/CC1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="8" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="8738">
+          <caret line="536" selection-end-line="558" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+            <element signature="e#1333#2150#0" />
+            <element signature="e#2188#2749#0" />
+            <element signature="e#2787#4978#0" />
+=======
+        <state relative-caret-position="10183">
+          <caret line="599" column="37" selection-start-line="598" selection-start-column="12" selection-end-line="599" selection-end-column="37" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+>>>>>>> feature
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/test/CC1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="8" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10880">
+          <caret line="640" lean-forward="true" selection-start-line="639" selection-start-column="32" selection-end-line="640" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/test/CC1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="57" column="8" lean-forward="true" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11662">
+          <caret line="686" column="13" selection-start-line="686" selection-start-column="13" selection-end-line="686" selection-end-column="13" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11407">
+          <caret line="671" column="19" lean-forward="true" selection-start-line="671" selection-start-column="19" selection-end-line="671" selection-end-column="19" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="18" lean-forward="true" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11033">
+          <caret line="649" column="1" selection-start-line="649" selection-start-column="1" selection-end-line="649" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ops_automatedingestion_201808/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9129">
+          <caret line="537" column="30" lean-forward="true" selection-end-line="557" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="9146">
+          <caret line="538" lean-forward="true" selection-start-line="538" selection-end-line="543" selection-end-column="20" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+            <element signature="e#1333#2150#0" />
+            <element signature="e#2188#2749#0" />
+            <element signature="e#2787#4978#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+          <folding>
+            <element signature="e#92#110#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+            <element signature="e#1333#2150#0" />
+            <element signature="e#2188#2749#0" />
+            <element signature="e#2787#4978#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="249" column="43" selection-start-line="249" selection-start-column="43" selection-end-line="249" selection-end-column="43" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+            <element signature="e#1333#2150#0" />
+            <element signature="e#2188#2749#0" />
+            <element signature="e#2787#4978#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ops_automatedingestion_201808/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="537" column="30" selection-end-line="557" />
+          <folding>
+            <element signature="e#662#683#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+          <folding>
+            <element signature="e#92#110#0" expanded="true" />
+=======
+        <state relative-caret-position="8789">
+          <caret line="517" column="29" selection-start-line="517" selection-start-column="29" selection-end-line="517" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9146">
+          <caret line="538" lean-forward="true" selection-start-line="538" selection-end-line="543" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/text-skew-correction/correct_skew.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Redirection/BRODW2A/Desktop/PyQt4_gpl_win-4.12.2/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/SQL_codes/BPI1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-49">
+          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/Analysis/prioritization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/Analysis/analysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3116" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/Analysis/concentration.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1156">
+          <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/SQL_codes/MF3_SQL.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/test/BPI1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../GitLab/pi_analytics/Outlier/test/CC1_SQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="57" column="8" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/my-envs/elevate/Lib/site-packages/kivy/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="804" column="41" selection-start-line="804" selection-start-column="33" selection-end-line="804" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1508">
+          <caret line="759" column="30" lean-forward="true" selection-start-line="759" selection-start-column="30" selection-end-line="759" selection-end-column="30" />
+          <folding>
+            <element signature="e#662#692#0" expanded="true" />
+            <element signature="e#1518#12813#0" />
+            <element signature="e#1672#2364#0" />
+            <element signature="e#2402#2964#0" />
+            <element signature="e#3002#5193#0" />
+            <element signature="e#5233#12032#0" />
+            <element signature="e#12065#12813#0" />
+            <element signature="e#13588#14938#0" />
+            <element signature="e#15329#24745#0" />
+            <element signature="e#24766#26054#0" />
+            <element signature="e#26439#28999#0" />
+>>>>>>> feature
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
