@@ -156,6 +156,11 @@ class Parse:
                 out = "Yes"
             return(out)
 
+        def extract_search(document, start, end1, end2):
+            r = re.compile(
+                r"(?:^|(?<= ))(" + start + r")(.*\n?)(?:^|(?<= ))(" + end1 + r"|" + end2 + r")")
+            return r.findall(string)
+
         def charThreshold(document, word, threshold, search):
             index = document.find(word)
             thres = threshold
@@ -226,11 +231,15 @@ class Parse:
         amt_wiresIn = ""
         amt_wiresOut = ""
 
+        required_DOB = ""
+        required_daysBetween = ""
+
+        option_clientprofile = ""
+
         ####Customer Profile Details
         call_addressedTo = extract_addressedto(string)
         call_callFor = extract_callfor(string)
         call_sin = extract_sin(string)
-        call_dob = extract_dob(string)
         call_acts = extract_acts(string)
         call_dateSent = extract_datesent(string)
         call_taxCenter = extract_taxcenter(string)
@@ -289,33 +298,27 @@ class Parse:
         call_wiresInAMT = charThreshold(string, "wires in", 50, "num")
         call_wiresOutAMT =  charThreshold(string, "wires out", 50, "num")
 
-        # call_GIC = extract_var(string, "GIC")
-        # call_mutualFunds = extract_var(string, "Mutual Fund")
-        # call_RRSP = extract_var(string, "RRSP")
-        # call_RESP = extract_var(string, "RESP")
-        # call_bankStatements = extract_var(string, "Bank Statement")
-        # call_allStatements = extract_var(string, "all statement")
-        # call_mortgage = extract_var(string, "mortgage")
-        # call_loan = extract_var(string, "loan")
-        # call_RRIF = extract_var(string, "RRIF")
-        # call_RSP = extract_var(string, "RSP")
-        # call_investmentAcc = extract_var(string, "Investment Accounts")
-        # call_safetyDeposit = extract_var(string, "Safety Deposit")
-        # call_chequesReq = extract_var(string, "all cheques")
-        # call_chequesAmnt = charThreshold(string, "all cheques", 50, "num")
-        # call_clientProfile = extract_var(string, "client profile")
-        # if call_clientProfile == "Yes":
-        #     call_accountsReq ="Yes"
-        #     call_depositReq = "Yes"
-        #     call_depositAmnt = "All"
-        #     call_GIC = "Yes"
-        #     call_mutualFunds = "Yes"
-        #     call_RRSP = "Yes"
-        #     call_RESP = "Yes"
-        #     call_bankStatements = "Yes"
-        #     call_allStatements = "Yes"
-        #     call_chequesReq = "Yes"
-        #     call_chequesAmnt = "All"
+        option_clientprofile = extract_var(string, "client profile")
+        if option_clientprofile == "Yes":
+            required_deposits = "Yes"
+
+        #Complex catch statements
+        call_DOB_param1 = extract_var(string, "DOB")
+        call_DOB_param2 = extract_var(string, "birth")
+        if call_DOB_param1 == "Yes":
+            required_DOB = extract_search(string, "DOB", "Address", "  ")
+        elif call_DOB_param2 == "Yes":
+            required_DOB = extract_search(string, "birth", "Social", "  ")
+        else:
+            required_DOB = ""
+
+        call_DOB_param1 = extract_var(string, "period")
+        call_DOB_param2 = extract_var(string, "last 12 months")
+        if call_DOB_param1 == "Yes":
+            required_daysBetween = extract_search(string, "period", ":", "  ")
+        elif call_DOB_param2 == "Yes":
+            required_daysBetween = "last 12 months"
+
 
 
 
@@ -331,6 +334,8 @@ class Parse:
         Callfor = str(call_callFor)
         LOB = str(call_letterTitle)
         requestingBody = str(call_requestingBody)
+
+        option_clientprofile = str(option_clientprofile)
 
 
         required_openclose = str(call_openCloseAcc)
@@ -441,8 +446,8 @@ class Parse:
         LOB = "TD " + LOB
 
         var_list = [filename, LOB, Datesent, call_currTime, Addressedto,
-                    SIN, "DOB PH", Due, Taxcenter, Acts, Requested,
-                    Callfor, requestingBody,
+                    SIN, required_DOB, Due, Taxcenter, Acts, Requested,
+                    Callfor, requestingBody, option_clientprofile, required_daysBetween,
 
                     required_openclose, required_accounts, required_chequeSides, amt_chequeSides,
                     required_chequesCancelled,amt_chequesCancelled,required_bankDrafts,amt_bankDraft, required_certCheques,amt_certCheques,

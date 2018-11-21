@@ -114,7 +114,7 @@ class Sort:
         headers = ["filename", "Letter Title", "date sent", "date recieved",
                    "Customer Name", "Social Insurance Number", "Date Of Birth",
                    "Date Due", "Tax Center", "Subsections", "Raw Information",
-                   "Information For", "Agency", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
+                   "Information For", "Agency","//Client Profile", "//Dasy Between", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
                    "//AMT PLACE HOLDER", "Cancelled Cheques","AMT PLACE HOLDER", "Bank Drafts",
                    "//AMT PLACE HOLDER","Certified Cheques","//AMT PLACE HOLDER", "//Deposits","//AMT PLACE HOLDER",
                    "Withdrawls","//AMT PLACE HOLDER","Last # deposits", "Credit Memos","Debit Memos",
