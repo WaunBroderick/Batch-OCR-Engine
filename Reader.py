@@ -183,6 +183,8 @@ class Parse:
                 return(cutString)
 
         #Variables
+        addressedTo = ""
+
         required_openclose = ""
         required_accounts = ""
         required_chequeSides = ""
@@ -237,7 +239,6 @@ class Parse:
         option_clientprofile = ""
 
         ####Customer Profile Details
-        call_addressedTo = extract_addressedto(string)
         call_callFor = extract_callfor(string)
         call_sin = extract_sin(string)
         call_acts = extract_acts(string)
@@ -303,6 +304,15 @@ class Parse:
             required_deposits = "Yes"
 
         #Complex catch statements
+        call_addressedTo_param2 = extract_var(string, "information on")
+        if call_addressedTo_param2 == "Yes":
+            Addressedto = extract_search(string, "information on", "date", "  ")
+            Addressedto = str(Addressedto)
+        else:
+            addressedTo = str(extract_addressedto(string))
+
+
+
         call_DOB_param1 = extract_var(string, "DOB")
         call_DOB_param2 = extract_var(string, "birth")
         if call_DOB_param1 == "Yes":
@@ -326,7 +336,6 @@ class Parse:
         Filename = str(filename)
         Datesent = str(call_dateSent)
         Taxcenter = str(call_taxCenter)
-        addressedTo = str(call_addressedTo)
         Due = str(call_due)
         Acts = str(call_acts)
         Requested = str(call_requested)
