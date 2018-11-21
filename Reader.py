@@ -378,24 +378,6 @@ class Parse:
         amt_wiresOut = str(call_wiresOutAMT)
 
 
-
-        # required_GIC = str(call_GIC)
-        # required_mutualFunds = str(call_mutualFunds)
-        # required_RRSP = str(call_RRSP)
-        # required_RESP = str(call_RESP)
-        # required_bankStatements = str(call_bankStatements)
-        # required_clientProfile = str(call_clientProfile)
-        # required_allStatements = str(call_allStatements)
-        # required_cheques = str(call_chequesReq)
-        # required_mortgages = str(call_mortgage)
-        # required_loan = str(call_loan)
-        # required_RRIF = str(call_RRIF)
-        # required_RSP = str(call_RSP)
-        # required_investmentAcc = str(call_investmentAcc)
-        # required_safetyDeposit = str(call_safetyDeposit)
-        # amount_cheques = str(call_chequesAmnt)
-
-
         # Cleaning the variables for display within the outputted file
         monthPat1 = r"January"
         monthPat2 = r"February"

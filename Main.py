@@ -147,7 +147,7 @@ class Collector:
 #Main Program Entry Point
 if __name__ == '__main__':
     #Absolute file path to the tesseract engine
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = r'.\Tesseract-OCR\tesseract.exe'
 
     #Instantiate the GUI
     root = Tk()
