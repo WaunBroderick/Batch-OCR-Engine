@@ -9,7 +9,7 @@
 </head>
   <h1>INPROD</h1>
   
-![Visual Studio Team Services builds](https://img.shields.io/vso/build/larsbrinkhoff/953a34b9-5966-4923-a48a-c41874cfb5f5/1.svg)
+[![Build Status](https://travis-ci.com/WaunBroderick/INPROD.svg?branch=master)](https://travis-ci.com/WaunBroderick/INPROD)
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
 
