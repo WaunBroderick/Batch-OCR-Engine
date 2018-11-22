@@ -164,18 +164,17 @@ if __name__ == '__main__':
     root.resizable(width=False, height=False)
 
 
-                #COMMENT OUT WHEN PROD
     #INPROD Logo
-    #img = Image.open('./props/inprod-logo.png')
-    #img = img.resize((250, 250), Image.ANTIALIAS)
-    #img = ImageTk.PhotoImage(img)
-    #panel = Label(root, image=img)
-    #panel.image = img
-    #panel.pack()
+    img = Image.open('./props/inprod-logo.png')
+    img = img.resize((250, 250), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(img)
+    panel = Label(root, image=img)
+    panel.image = img
+    panel.pack()
 
-            #COMMENT OUT WHEN PROD
+
     #windowLogo
-    #root.iconbitmap(r'./props/favicon.ico')
+    root.iconbitmap(r'./props/favicon.ico')
 
     my_gui = INPRODGUI(root)
     root.mainloop()
