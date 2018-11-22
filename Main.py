@@ -174,7 +174,7 @@ if __name__ == '__main__':
     #panel.pack()
 
     #windowLogo
-    root.iconbitmap(r'./props/favicon.ico')
+    #root.iconbitmap(r'./props/favicon.ico')
 
     my_gui = INPRODGUI(root)
     root.mainloop()
