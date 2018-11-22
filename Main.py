@@ -173,6 +173,7 @@ if __name__ == '__main__':
     #panel.image = img
     #panel.pack()
 
+            #COMMENT OUT WHEN PROD
     #windowLogo
     #root.iconbitmap(r'./props/favicon.ico')
 
