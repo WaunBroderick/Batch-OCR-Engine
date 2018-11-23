@@ -183,7 +183,7 @@ class Parse:
                 return(cutString)
 
         #Variables
-        addressedTo = ""
+        AddressedTo = ""
 
         required_openclose = ""
         required_accounts = ""
@@ -303,13 +303,16 @@ class Parse:
         if option_clientprofile == "Yes":
             required_deposits = "Yes"
 
+        test1 = extract_var(string, "Information on Alberta")
+
         #Complex catch statements
-        call_addressedTo_param2 = extract_var(string, "information on")
-        if call_addressedTo_param2 == "Yes":
-            Addressedto = extract_search(string, "information on", "date", "  ")
-            Addressedto = str(Addressedto)
+        call_AddressedTo_param2 = extract_var(string, "Information on Alberta")
+
+        if call_AddressedTo_param2 == "Yes":
+            AddressedTo = extract_search(string, "Name:", "Corporate", "Corporate Account")
+            AddressedTo = str(AddressedTo)
         else:
-            addressedTo = str(extract_addressedto(string))
+            AddressedTo = str(extract_addressedto(string))
 
 
 
@@ -429,7 +432,7 @@ class Parse:
         Taxcenter = re.sub(' +', ' ', Taxcenter)
 
         # Name cleaning
-        Addressedto = re.sub(fullForPat, "", addressedTo)
+        #Addressedto = re.sub(fullForPat, "", AddressedTo)
 
         # days due cleaning
         Due = re.sub(fullForPat, "", Due)
@@ -454,7 +457,7 @@ class Parse:
         LOB = LOB.split(sep, 2)[0]
         LOB = "TD " + LOB
 
-        var_list = [filename, LOB, Datesent, call_currTime, Addressedto,
+        var_list = [filename, LOB, Datesent, call_currTime, AddressedTo,
                     SIN, required_DOB, Due, Taxcenter, Acts, Requested,
                     Callfor, requestingBody, option_clientprofile, required_daysBetween,
 
@@ -466,7 +469,7 @@ class Parse:
                     required_liabilityStatements,required_mortgageApplications,required_mortgageStatements,
                     required_loanApplications, required_loanStatements, required_CCStatements, required_CCApprovals,
                     required_termDeposits, required_guaranteedInvestments, required_mutualFunds,
-                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,
+                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,test1
                     ]
         print(var_list)
         collect = Collector()
