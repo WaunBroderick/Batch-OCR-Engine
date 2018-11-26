@@ -156,6 +156,17 @@ class Parse:
                 out = "Yes"
             return(out)
 
+        def extract_var_restricted(document, docType, start, stop):
+            lctx = docType
+            out = "No"
+            lowerLim = (start)
+            upperLim = (stop)
+            cutString = document[lowerLim:upperLim]
+            r = re.search(lctx, cutString, re.IGNORECASE)
+            if r is not None:
+                out = "Yes"
+            return (out)
+
         def extract_search(document, start, end1, end2):
             r = re.compile(
                 r"(?:^|(?<= ))(" + start + r")(.*\n?)(?:^|(?<= ))(" + end1 + r"|" + end2 + r")")
@@ -306,10 +317,21 @@ class Parse:
         test1 = extract_var(string, "Information on Alberta")
 
         #Complex catch statements
-        call_AddressedTo_param2 = extract_var(string, "Information on Alberta")
+        call_AddressedTo_param2 = extract_var_restricted(string, "Information on Alberta",0,1500)
+        call_AddressedTo_param3 = extract_var_restricted(string, "Debtor's name",0,1500)
+        call_AddressedTo_param4 = extract_var_restricted(string, "Subject",0,1500)
+
 
         if call_AddressedTo_param2 == "Yes":
             AddressedTo = extract_search(string, "Name:", "Corporate", "Corporate Account")
+            AddressedTo = str(AddressedTo)
+        # else:
+        #     AddressedTo = str(extract_addressedto(string))
+        elif call_AddressedTo_param3 == "Yes":
+            AddressedTo = extract_search(string, "Debtor's name", "Other name", " ")
+            AddressedTo = str(AddressedTo)
+        elif call_AddressedTo_param4 == "Yes":
+            AddressedTo = extract_search(string, "Subject", "SIN", " ")
             AddressedTo = str(AddressedTo)
         else:
             AddressedTo = str(extract_addressedto(string))

@@ -11,6 +11,7 @@
 
 #Local class imports
 from Router import *
+from Tuner import *
 
 #Imports for the local classes, methods and functions within this file
 import os.path
@@ -23,6 +24,12 @@ import shutil
 
 #Class responsible for the bulk of building directories, passing, cloning, converting and amalgamating files
 class Build():
+
+    def __init__(self):
+        global tuner
+        global Route
+        tuner = QC()
+        Route = Sort()
 
     #Global defined variable for the scandir for extensible use
     def _global_scanDir_(self, _scanDir):
@@ -123,6 +130,7 @@ class Build():
         for filename in os.listdir(directory):
             if filename.endswith(".jpg") or filename.endswith(".tiff"):
 
+                passFile = filename
                 # Variable hold to
                 hold = str(filename)
                 # The function responsible for converting formats to jpeg sets resolution
@@ -166,6 +174,8 @@ class Build():
                 # Naming convention for file system
                 with open(txtDir + finalCut + '.txt', 'w') as f:
                     print(recognized_text, file=f)
+
+
 
         #cahined event
         self._combine_txt_()
@@ -283,6 +293,8 @@ class Build():
                                                 raw6 = myfile.read().replace(r'\n', '  ')
                                                 with open(compDir + str(mainNum) + "-complete.txt", 'w') as file:
                                                     file.write(raw0 + raw1 + raw2 + raw3 + raw5 + raw6)
+
+
         #chained event
         self._clean_()
 
@@ -308,7 +320,7 @@ class Build():
                 with open(directory + filename, 'w') as file:
                     file.write(filedata)
 
-        #initalize the Route class in the Router file
-        Route = Sort()
+        # Accuracy Check
+        tuner._accuracy_check_(directory)
         #Pass the global variables of scan and out directory to the first activated method of the Route class
         Route._initalize_(SCANSTR, OUTSTR)

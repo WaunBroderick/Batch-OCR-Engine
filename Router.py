@@ -56,7 +56,7 @@ class Sort:
             languages_ratios[language] = len(common_elements)  # language "score"
 
             #A testing printline to output the variation of language detected in a document
-            # print(languages_ratios)
+            #print("Language Ratios: " + languages_ratios)
 
         return languages_ratios
 
