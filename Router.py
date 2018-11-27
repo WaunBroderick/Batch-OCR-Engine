@@ -17,7 +17,7 @@ from nltk.corpus import stopwords
 import os.path
 import shutil
 from threading import Thread
-
+import sys
 
 
 class Sort:
@@ -37,9 +37,15 @@ class Sort:
         global OUTSTR
         OUTSTR = _outDir
 
-    def _initalize_(self, _scanDir, _outDir):
+    # Global defined variable for the selection
+    def _global_selection_(self, _selection):
+        global SELECTION
+        SELECTION = _selection
+
+    def _initalize_(self, _scanDir, _outDir, _selection):
         self._global_outDir_(_outDir)
         self._global_scanDir_(_scanDir)
+        self._global_selection_(_selection)
         self._determine_language_()
 
     def _calculate_languages_ratios_(text):
@@ -130,8 +136,17 @@ class Sort:
             writer.writerow(headers)
 
         for filename in os.listdir(directory):
-            parse._CRA_main_(filename, directory)
-
+            if SELECTION == "RFI":
+                parse._CRA_main_(filename, directory)
+            elif SELECTION == "Audit":
+                messagebox.showinfo("Process Selection", "Audit is not implemented yet, please restart and try a different process")
+                sys.exit()
+            elif SELECTION == "RESL":
+                messagebox.showinfo("Process Selection", "RESL is not implemented yet, please restart and try a different process")
+                sys.exit()
+            else:
+                messagebox.showinfo("Process Selection", "THERE HAS BEEN AN ERRRORRRR")
+                sys.exit()
 
     def _french_subSorter_(self):
         # Sets the sub-directories for the traversed completed files to be operated on

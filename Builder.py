@@ -27,9 +27,9 @@ class Build():
 
     def __init__(self):
         global tuner
-        global Route
+        global Sorter
         tuner = QC()
-        Route = Sort()
+        Sorter = Sort()
 
     #Global defined variable for the scandir for extensible use
     def _global_scanDir_(self, _scanDir):
@@ -41,12 +41,18 @@ class Build():
         global OUTSTR
         OUTSTR = _outDir
 
+    # Global defined variable for the selection
+    def _global_selection_(self, _selection):
+        global SELECTION
+        SELECTION = _selection
+
     #Creates the directories and folder paths for preceeding steps within the INPROD process
-    def _directories_(self, _scanDir, _outDir):
+    def _directories_(self, _scanDir, _outDir, _selection):
 
         #call global variables to change their values for this file
         self._global_outDir_(_outDir)
         self._global_scanDir_(_scanDir)
+        self._global_selection_(_selection)
 
         directory = OUTSTR
 
@@ -322,5 +328,6 @@ class Build():
 
         # Accuracy Check
         tuner._accuracy_check_(directory)
-        #Pass the global variables of scan and out directory to the first activated method of the Route class
-        Route._initalize_(SCANSTR, OUTSTR)
+
+        #Pass the global variables of scan and out directory to the first activated method of the Sort class
+        Sorter._initalize_(SCANSTR, OUTSTR, SELECTION)

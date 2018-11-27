@@ -44,10 +44,17 @@ class INPRODGUI:
         global OUTSTR
         OUTSTR = arg2
 
+    # Global defined variable for the selection
+    def _global_selection_(self, selection):
+        global SELECTION
+        SELECTION = selection
+
     #Initalization of the Tkinter GUI
     def __init__(self, master):
         self.master = master
         master.title("Inprod")
+        #set selection default
+        self._global_selection_("RFI")
 
         self.label = Label(master, text="Please select both a input directory and an output directory.")
         self.label.pack()
@@ -58,10 +65,10 @@ class INPRODGUI:
         self.outScan_button = Button(master, text="Select Output Directory", command=self.outDir)
         self.outScan_button.place(x=250,y=310)
 
-        variable = StringVar(master)
-        variable.set("Process")
+        option = StringVar(master)
+        option.set("RFI")
 
-        w = OptionMenu(master, variable, "RFI","RESL", "Audit")
+        w = OptionMenu(master, option, "RFI","RESL", "Audit", command= self.selectionCallback)
         w.pack()
 
         #Variable check boxes for implemented Quality Control Measures
@@ -83,6 +90,9 @@ class INPRODGUI:
 
         self.close_button = Button(master, text="Exit", command=master.quit)
         self.close_button.place(x=230,y=500)
+
+    def func(self, value):
+        print(value)
 
     #Progress bar functionality
     def traitement(self):
@@ -118,10 +128,9 @@ class INPRODGUI:
         else:
         #True initalization on the builder file and class with the global variables selected
             init = Build()
-
             #init._global_scanDir_(SCANSTR)
             #init._global_outDir_(OUTSTR)
-            init._directories_(SCANSTR, OUTSTR)
+            init._directories_(SCANSTR, OUTSTR, SELECTION)
             #init._clean_()
             sort = Sort()
             sort._english_subSorter_()
@@ -132,6 +141,11 @@ class INPRODGUI:
     #Implementing the font training functionality ======= PORT FROM DEVELOP REPOSITORY WHEN NEEDED============
     def trainFont(self):
         messagebox.showinfo("Font Trainer", "This option will allow you to select a file wit")
+
+
+    def selectionCallback(self, selection):
+        Selection = selection
+        self._global_selection_(Selection)
 
 #The class responsible for the final collection of processed documents and feeding of their output lists to respective CSVs
 class Collector:

@@ -44,15 +44,18 @@ class Queue(object):
     def peekName(self):
         return self.head.name
 
+    def peekLocation(self):
+        return self.head.location
+
     def enque(self, name, threshold, location, run):
-        new_run = Node(name, threshold, location, run)
+        new_node = Node(name, threshold, location, run)
         if self.head is None:
-            self.head = new_run
+            self.head = new_node
             self.tail = self.head
             self.size += 1
         else:
-            self.tail.next = new_run
-            self.tail = new_run
+            self.tail.next = new_node
+            self.tail = new_node
             self.size += 1
 
     def size(self):
@@ -67,11 +70,11 @@ class Queue(object):
 
 class QC:
 
-    def __init__(self):
-        global firstQueue
-        firstQueue = Queue()
+    #def __init__(self):
+
 
     def _accuracy_check_(self, _directory):
+        firstQueue = Queue()
         stop_words_en = set(stopwords.words('english'))
         stop_words_fr = set(stopwords.words('french'))
 
@@ -97,30 +100,38 @@ class QC:
                         accuracyCheck = int((len(filtered_sentence) / len(word_tokens)) * 100)
                 print ("this is the accuracy: " + str(accuracyCheck))
                 if accuracyCheck <= 75:
+                    print(filename)
+                    print(_directory)
+                    print(accuracyCheck)
                     firstQueue.enque(filename, accuracyCheck, _directory, 0)
 
         print("This is the legnth of the Queue: " + str(firstQueue.size))
+        print("This is the threshold in the head of the Queue: " + str(firstQueue.peekThreshold()))
+        print("This is the name in the head of the Queue: " + str(firstQueue.peekName()))
+        print("This is the location in the head of the Queue: " + str(firstQueue.peekLocation()))
+        #print("This is the location in the head of the Queue: " + str(firstQueue.peekLocation))
 
-        self._queue_loader_()
+        #self._queue_loader_()
 
-    def _queue_loader_(self):
-        runLoops = firstQueue.size
-        fileName = str(firstQueue.peekName)
-        fileName = fileName.replace("complete.txt", "", 1)
-        fileName = fileName.replace("']", "", 1)
-        fileName = fileName.replace("['", "", 1)
-        print("this is the fileName: " + fileName)
+    # def _queue_loader_(self):
+    #     runLoops = firstQueue.size
+    #     fileName = str(firstQueue.peekName)
+    #     fileName = fileName.replace("complete.txt", "", 1)
+    #     fileName = fileName.replace("']", "", 1)
+    #     fileName = fileName.replace("['", "", 1)
+    #     print("this is the fileName: " + fileName)
 
 
 
-if __name__ == '__main__':
-    # q.enque("file1", 20,"c:/documents/here", 1)
-    # q.enque("file2", 56, "c:/documents/here", 2)
-    # q.enque("file3", 77, "c:/documents/here", 2)
-    # q.enque("file4", 34, "c:/documents/here", 2)
-    # print (q.peekThreshold())
-    # q.dequeue()
-    # print(q.peekThreshold())
-    # print(q.peek())
-    # print("hello world")
-    print("Hello World")
+# if __name__ == '__main__':
+#     q = Queue()
+#     q.enque("file1", 20,"c:/documents/here", 1)
+#     q.enque("file2", 56, "c:/documents/here", 2)
+#     q.enque("file3", 77, "c:/documents/here", 2)
+#     q.enque("file4", 34, "c:/documents/here", 2)
+#     print (q.peekThreshold())
+#     q.dequeue()
+#     print(q.peekThreshold())
+#     print(q.peek())
+#     print("hello world")
+#     print("Hello World")
