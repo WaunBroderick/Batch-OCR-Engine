@@ -66,12 +66,10 @@ class INPRODGUI:
 
         #Variable check boxes for implemented Quality Control Measures
         CheckVar1 = IntVar()
-        CheckVar2 = IntVar()
-        C1 = Checkbutton(master, text="Skew Check", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
-        C2 = Checkbutton(master, text="Rotation Check", variable=CheckVar2, onvalue=1, offvalue=0, height=0, width=0)
 
-        C1.place(x=150,y=340)
-        C2.place(x=250,y=340)
+        C1 = Checkbutton(master, text="Accuracy Tuner", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
+
+        C1.place(x=200,y=340)
 
         self.trainFont_button = Button(master, text="Train Font", command=self.trainFont)
         self.trainFont_button.place(x=210,y=370)
