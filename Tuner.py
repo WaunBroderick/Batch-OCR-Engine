@@ -9,16 +9,16 @@
 ##                                                             ##
 #####################DO NOT REMOVE###############################
 
-import cv2
+#import cv2
 import os.path
-import math
-import numpy as np
-from scipy import ndimage
-import re
-import PyPDF2
+#import math
+#import numpy as np
+#from scipy import ndimage
+#import re
+#import PyPDF2
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import sys
+#import sys
 
 #Class responsible for pre Tuning files
 #More complete version stored in other repository and will port later!
