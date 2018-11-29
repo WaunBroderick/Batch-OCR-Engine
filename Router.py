@@ -97,8 +97,8 @@ class Sort:
                     # A testing printline to output the final language detected in a document
                     #print(language)
                     # Creates the images directory for new language specific text
-                    if not os.path.exists(directory + language):
-                        os.makedirs(directory + language)
+                    # if not os.path.exists(directory + language):
+                    #     os.makedirs(directory + language)
 
                     movdir = (directory + language + "/")
                     # print(movdir)
@@ -115,12 +115,12 @@ class Sort:
         # Sets the sub-directories for the traversed completed files to be operated on
         parse = Parse()
 
-        directory = (OUTSTR + "/completed/english/")
+        directory = (OUTSTR + "/completed/")
 
         headers = ["filename", "Letter Title", "date sent", "date recieved",
                    "Customer Name", "Social Insurance Number", "Date Of Birth",
                    "Date Due", "Tax Center", "Subsections", "Raw Information",
-                   "Information For", "Agency","//Client Profile", "//Days Between", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
+                   "Information For", "Agency","//Client Profile", "//Know your customer", "//Days Between", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
                    "//AMT PLACE HOLDER", "Cancelled Cheques","AMT PLACE HOLDER", "Bank Drafts",
                    "//AMT PLACE HOLDER","Certified Cheques","//AMT PLACE HOLDER", "//Deposits","//AMT PLACE HOLDER",
                    "Withdrawls","//AMT PLACE HOLDER","Last # deposits", "Credit Memos","Debit Memos",

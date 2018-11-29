@@ -28,9 +28,11 @@ class Parse:
         #fileloc = os.path.abspath(directory + filename)
 
         # Remove not registering formatting characters
-        with open(fileloc + "\\" + filename, 'r+') as myfile:
+        print("file location: " + fileloc)
+        print("file name: " + filename)
+        with open(fileloc + filename, 'r+') as myfile:
             raw = myfile.read().replace(r'\n', '')
-            wr = open(fileloc + "\\" + filename, 'w')
+            wr = open(fileloc + filename, 'w')
             wr.write(raw)
 
             string = raw
@@ -228,9 +230,11 @@ class Parse:
         required_RSP = ""
         required_RESP = ""
         required_TFSA = ""
+        required_RRIF = ""
         statementAcc = ""
         sidesCheques = ""
         cancelledCheques = ""
+        required_knowCustomer = ""
 
         amt_chequeSides = ""
         amt_chequesCancelled = ""
@@ -296,6 +300,8 @@ class Parse:
         call_RSP =  extract_var(string, "RSP")
         call_RESP =  extract_var(string, "RESP")
         call_TFSA =  extract_var(string, "TFSA")
+        call_RRIF = extract_var(string, "RRIF")
+        call_knowCustomer = extract_var(string,"Know Your Customer")
 
         call_due = charThreshold(string, "days", 30, "date")
         call_chequeSidesAMT = charThreshold(string, "both sides of cheques", 50, "num")
@@ -317,7 +323,7 @@ class Parse:
         test1 = extract_var(string, "Information on Alberta")
 
         #Complex catch statements
-        call_AddressedTo_param2 = extract_var_restricted(string, "Information on Alberta",0,1500)
+        call_AddressedTo_param2 = extract_var_restricted(string, "Alberta",0,1500)
         call_AddressedTo_param3 = extract_var_restricted(string, "Debtor's name",0,1500)
         call_AddressedTo_param4 = extract_var_restricted(string, "Subject",0,1500)
 
@@ -403,6 +409,8 @@ class Parse:
         required_RSP = str(call_RSP)
         required_RESP = str(call_RESP)
         required_TFSA = str(call_TFSA)
+        required_RRIF = str(call_RRIF)
+        required_knowCustomer = str(call_knowCustomer)
 
         amt_chequeSides = str(call_chequeSidesAMT)
         amt_chequesCancelled = str(call_chequesCancelledAMT)
@@ -481,7 +489,7 @@ class Parse:
 
         var_list = [filename, LOB, Datesent, call_currTime, AddressedTo,
                     SIN, required_DOB, Due, Taxcenter, Acts, Requested,
-                    Callfor, requestingBody, option_clientprofile, required_daysBetween,
+                    Callfor, requestingBody, option_clientprofile, required_knowCustomer, required_daysBetween,
 
                     required_openclose, required_accounts, required_chequeSides, amt_chequeSides,
                     required_chequesCancelled,amt_chequesCancelled,required_bankDrafts,amt_bankDraft, required_certCheques,amt_certCheques,
@@ -491,7 +499,7 @@ class Parse:
                     required_liabilityStatements,required_mortgageApplications,required_mortgageStatements,
                     required_loanApplications, required_loanStatements, required_CCStatements, required_CCApprovals,
                     required_termDeposits, required_guaranteedInvestments, required_mutualFunds,
-                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,test1
+                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,required_RRIF
                     ]
         print(var_list)
         collect = Collector()

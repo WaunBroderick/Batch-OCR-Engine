@@ -51,35 +51,46 @@ class INPRODGUI:
 
     #Initalization of the Tkinter GUI
     def __init__(self, master):
+        #instantiate the object and name it
         self.master = master
         master.title("Inprod")
         #set selection default
         self._global_selection_("RFI")
 
+        #Welcoming message label
         self.label = Label(master, text="Please select both a input directory and an output directory.")
         self.label.pack()
 
+        #Scan directory button and placement
         self.inScan_button = Button(master, text="Select Scan Directory", command=self.scanDir)
         self.inScan_button.place(x=120,y=310)
 
+        #Output directory button and placement
         self.outScan_button = Button(master, text="Select Output Directory", command=self.outDir)
         self.outScan_button.place(x=250,y=310)
 
+        #Option variable for the dropdown menu
         option = StringVar(master)
+        #Default option menu variable
         option.set("RFI")
 
+        #Dropdown option menu options, the command triggered and the packing of the obj
         w = OptionMenu(master, option, "RFI","RESL", "Audit", command= self.selectionCallback)
         w.pack()
 
         #Variable check boxes for implemented Quality Control Measures
         CheckVar1 = IntVar()
 
+        #Accuracy tuning checkbox
         C1 = Checkbutton(master, text="Accuracy Tuner", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
 
+        #
         C1.place(x=200,y=340)
 
+        #
         self.trainFont_button = Button(master, text="Train Font", command=self.trainFont)
         self.trainFont_button.place(x=210,y=370)
+
 
         self.execute_button = Button(master, text="Execute", command=self.execute)
         self.execute_button.place(x=215,y=410)

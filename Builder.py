@@ -327,7 +327,7 @@ class Build():
                     file.write(filedata)
 
         # Accuracy Check
-        tuner._accuracy_check_(directory)
+        #tuner._accuracy_check_(directory)
 
         #Pass the global variables of scan and out directory to the first activated method of the Sort class
         Sorter._initalize_(SCANSTR, OUTSTR, SELECTION)
