@@ -235,6 +235,7 @@ class Parse:
         sidesCheques = ""
         cancelledCheques = ""
         required_knowCustomer = ""
+        required_corporateNum = ""
 
         amt_chequeSides = ""
         amt_chequesCancelled = ""
@@ -331,6 +332,9 @@ class Parse:
         if call_AddressedTo_param2 == "Yes":
             AddressedTo = extract_search(string, "Name:", "Corporate", "Corporate Account")
             AddressedTo = str(AddressedTo)
+            required_corporateNum = extract_search(string, "Number:", "By", "  ")
+            required_corporateNum = str(required_corporateNum)
+
         # else:
         #     AddressedTo = str(extract_addressedto(string))
         elif call_AddressedTo_param3 == "Yes":
@@ -371,6 +375,8 @@ class Parse:
         Acts = str(call_acts)
         Requested = str(call_requested)
         SIN = str(call_sin)
+        if call_AddressedTo_param2 == "Yes":
+            SIN = "null"
         Callfor = str(call_callFor)
         LOB = str(call_letterTitle)
         requestingBody = str(call_requestingBody)
@@ -423,6 +429,9 @@ class Parse:
         amt_transferOut = (call_transfersOutAMT)
         amt_wiresIn = str(call_wiresInAMT)
         amt_wiresOut = str(call_wiresOutAMT)
+
+        if AddressedTo == "":
+            AddressedTo == Callfor
 
 
         # Cleaning the variables for display within the outputted file
@@ -488,7 +497,7 @@ class Parse:
         LOB = "TD " + LOB
 
         var_list = [filename, LOB, Datesent, call_currTime, AddressedTo,
-                    SIN, required_DOB, Due, Taxcenter, Acts, Requested,
+                    SIN, required_corporateNum, required_DOB, Due, Taxcenter, Acts, Requested,
                     Callfor, requestingBody, option_clientprofile, required_knowCustomer, required_daysBetween,
 
                     required_openclose, required_accounts, required_chequeSides, amt_chequeSides,
@@ -560,8 +569,6 @@ class Parse:
                 collect = Collector()
                 collect._french_collector(var_list, passedLoc)
 
-    def _CRA_v2_(self,passedFile, passedLoc):
-        print("hello world")
 
 class Clean:
     print("Hold")

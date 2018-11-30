@@ -118,7 +118,7 @@ class Sort:
         directory = (OUTSTR + "/completed/")
 
         headers = ["filename", "Letter Title", "date sent", "date recieved",
-                   "Customer Name", "Social Insurance Number", "Date Of Birth",
+                   "Customer Name", "Social Insurance Number","Corporate Number", "Date Of Birth",
                    "Date Due", "Tax Center", "Subsections", "Raw Information",
                    "Information For", "Agency","//Client Profile", "//Know your customer", "//Days Between", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
                    "//AMT PLACE HOLDER", "Cancelled Cheques","AMT PLACE HOLDER", "Bank Drafts",
