@@ -321,7 +321,6 @@ class Parse:
         if option_clientprofile == "Yes":
             required_deposits = "Yes"
 
-        test1 = extract_var(string, "Information on Alberta")
 
         #Complex catch statements
         call_AddressedTo_param2 = extract_var_restricted(string, "Alberta",0,1500)
@@ -345,6 +344,7 @@ class Parse:
             AddressedTo = str(AddressedTo)
         else:
             AddressedTo = str(extract_addressedto(string))
+            required_corporateNum = "null"
 
 
 
@@ -359,10 +359,18 @@ class Parse:
 
         call_DOB_param1 = extract_var(string, "period")
         call_DOB_param2 = extract_var(string, "last 12 months")
+        call_DOB_param3 = extract_var(string, "for the last")
         if call_DOB_param1 == "Yes":
             required_daysBetween = extract_search(string, "period", ":", "  ")
         elif call_DOB_param2 == "Yes":
             required_daysBetween = "last 12 months"
+        elif call_DOB_param3 == "Yes":
+            required_daysBetween = extract_search(string, "for the last", "months", "  ")
+
+        #hold until move confirmed valid
+        call_SIN_param1 = extract_var(string, "SIN")
+        if call_SIN_param1 == "Yes":
+            SIN = extract_search(string, "SIN", " ", "  ")
 
 
 
@@ -377,6 +385,7 @@ class Parse:
         SIN = str(call_sin)
         if call_AddressedTo_param2 == "Yes":
             SIN = "null"
+
         Callfor = str(call_callFor)
         LOB = str(call_letterTitle)
         requestingBody = str(call_requestingBody)
@@ -433,6 +442,8 @@ class Parse:
         if AddressedTo == "":
             AddressedTo == Callfor
 
+        if  call_AddressedTo_param2 == "Yes":
+            required_DOB = "null"
 
         # Cleaning the variables for display within the outputted file
         monthPat1 = r"January"
@@ -496,10 +507,12 @@ class Parse:
         LOB = LOB.split(sep, 2)[0]
         LOB = "TD " + LOB
 
-        var_list = [filename, LOB, Datesent, call_currTime, AddressedTo,
-                    SIN, required_corporateNum, required_DOB, Due, Taxcenter, Acts, Requested,
-                    Callfor, requestingBody, option_clientprofile, required_knowCustomer, required_daysBetween,
-
+        var_list = [filename,
+                    #LOB, Datesent,
+                    call_currTime, AddressedTo,
+                    SIN, required_corporateNum, required_DOB,
+                    #Due,Taxcenter, Acts, Requested,Callfor, requestingBody,
+                    option_clientprofile, required_knowCustomer, required_daysBetween,
                     required_openclose, required_accounts, required_chequeSides, amt_chequeSides,
                     required_chequesCancelled,amt_chequesCancelled,required_bankDrafts,amt_bankDraft, required_certCheques,amt_certCheques,
                     required_deposits,amt_deposits, required_withdrawls,amt_withdrawls,"", required_creditMemo,

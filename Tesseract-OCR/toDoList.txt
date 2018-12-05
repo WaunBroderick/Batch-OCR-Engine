@@ -1,0 +1,8 @@
+#A small to-do List to keep track of development tasks to complete
+
+
+1)CRA Parser in Reader.py
+i)If time elapsed is required over 7 years default to 7
+ii)18months ----
+iii)Clean up the Name Column
+iv)Seperat outputs for various name fields

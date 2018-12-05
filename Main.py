@@ -139,10 +139,12 @@ class INPRODGUI:
         else:
         #True initalization on the builder file and class with the global variables selected
             init = Build()
-            #init._global_scanDir_(SCANSTR)
-            #init._global_outDir_(OUTSTR)
-            init._directories_(SCANSTR, OUTSTR, SELECTION)
+            init._global_scanDir_(SCANSTR)
+            init._global_outDir_(OUTSTR)
+            init._global_selection_(SELECTION)
+            #init._directories_(SCANSTR, OUTSTR, SELECTION)
             #init._clean_()
+            init._img_to_txt_()
             sort = Sort()
             sort._english_subSorter_()
 
