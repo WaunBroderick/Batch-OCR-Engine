@@ -70,11 +70,11 @@ class Parse:
             r = re.compile('(?<= information for)(.*\n?)(?= Within )')
             return r.findall(string)
 
-        def extract_sin(document):
-            top = string[200:800]
+        def extract_sin(document, string):
+            String = string
             # r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3}|\d{3}[-\.\s]??\d{3})')
             r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
-            sin_numbers = r.findall(top)
+            sin_numbers = r.findall(String)
             return [re.sub(r'\D', '', number) for number in sin_numbers]
 
         def extract_dob(document):
@@ -204,6 +204,14 @@ class Parse:
             else:
                 return(cutString)
 
+        def charAfter(document, word, threshold):
+            index = document.find(word)
+            thres = threshold
+            upperLim = (index + thres)
+            cutString = document[index:upperLim]
+            return (cutString)
+
+
         #Variables
         AddressedTo = ""
 
@@ -265,7 +273,6 @@ class Parse:
 
         ####Customer Profile Details
         call_callFor = extract_callfor(string)
-        call_sin = extract_sin(string)
         call_acts = extract_acts(string)
         call_dateSent = extract_datesent(string)
         call_taxCenter = extract_taxcenter(string)
@@ -376,10 +383,6 @@ class Parse:
         elif call_DOB_param3 == "Yes":
             required_daysBetween = extract_search(string, "for the last", "months", "  ")
 
-        #hold until move confirmed valid
-        call_SIN_param1 = extract_var(string, "SIN")
-        if call_SIN_param1 == "Yes":
-            SIN = extract_search(string, "SIN", " ", "  ")
 
 
 
@@ -391,7 +394,17 @@ class Parse:
         Due = str(call_due)
         Acts = str(call_acts)
         Requested = str(call_requested)
-        SIN = str(call_sin)
+
+
+        #hold until move confirmed valid
+        call_SIN_param1 = extract_var(string, "SIN")
+        call_SIN_param2 = extract_var(string, "social insurance number")
+        if call_SIN_param1 == "Yes":
+            SIN = str(charAfter(string, "SIN", 25))
+            SIN = str(extract_sin(string, SIN))
+        elif call_SIN_param2 == "Yes":
+            SIN = str(charAfter(string, "number", 25))
+            SIN = str(extract_sin(string, SIN))
         if call_AddressedTo_param2 == "Yes":
             SIN = "null"
 
@@ -587,13 +600,13 @@ class Parse:
                     sentences = [nltk.pos_tag(sent) for sent in sentences]
                     return sentences
 
-                def extract_sin(document):
-                    sin = []
-                    top = string[200:800]
-                    # r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3}|\d{3}[-\.\s]??\d{3})')
-                    r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
-                    sin_numbers = r.findall(top)
-                    return [re.sub(r'\D', '', number) for number in sin_numbers]
+                # def extract_sin(document):
+                #     sin = []
+                #     top = string[200:800]
+                #     # r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3}|\d{3}[-\.\s]??\d{3})')
+                #     r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
+                #     sin_numbers = r.findall(top)
+                #     return [re.sub(r'\D', '', number) for number in sin_numbers]
 
                 def extract_dob(document):
                     dob = []
@@ -602,17 +615,17 @@ class Parse:
                     dob_numbers = r.findall(top)
                     return [re.sub(r'\D', '', number) for number in dob_numbers]
 
-                sin = extract_sin(string)
+                #sin = extract_sin(string)
                 dob = extract_dob(string)
 
                 DOB = str(dob)
-                SIN = str(sin)
-                print("this is a SIN: ",SIN)
+                #SIN = str(sin)
+                #print("this is a SIN: ",SIN)
                 print("this is a DOB: ", DOB)
 
-                var_list = [SIN, DOB]
+                #var_list = [SIN, DOB]
                 collect = Collector()
-                collect._french_collector(var_list, passedLoc)
+                #collect._french_collector(var_list, passedLoc)
 
 
 class Clean:

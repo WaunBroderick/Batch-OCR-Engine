@@ -100,15 +100,15 @@ class Sort:
                     # if not os.path.exists(directory + language):
                     #     os.makedirs(directory + language)
 
-                    movdir = (directory + language + "/")
-                    # print(movdir)
-                    # shutil.copy(directory + filename, movdir + filename)
-                    # #os.remove(directory + filename)
-
-                    src = (directory + filename)
-                    dst = (movdir + filename)
-
-                    Thread(target=shutil.copy, args=[src, dst]).start()
+                    # movdir = (directory + language + "/")
+                    # # print(movdir)
+                    # # shutil.copy(directory + filename, movdir + filename)
+                    # # #os.remove(directory + filename)
+                    #
+                    # src = (directory + filename)
+                    # dst = (movdir + filename)
+                    #
+                    # Thread(target=shutil.copy, args=[src, dst]).start()
 
 
     def _english_subSorter_(self):
