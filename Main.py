@@ -143,8 +143,7 @@ class INPRODGUI:
             init._global_outDir_(OUTSTR)
             init._global_selection_(SELECTION)
             #init._directories_(SCANSTR, OUTSTR, SELECTION)
-            #init._clean_()
-            init._img_to_txt_()
+            init._clean_()
             sort = Sort()
             sort._english_subSorter_()
 

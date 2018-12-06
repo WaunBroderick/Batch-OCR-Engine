@@ -150,6 +150,15 @@ class Parse:
             return(out)
 
 
+        def extract_var_pass(document, docType):
+            lctx = docType
+            out = "No"
+            r = re.search(lctx, document, re.IGNORECASE)
+            if r is not None:
+                out = "Yes"
+            return(out)
+
+
         def extract_var(document, docType):
             lctx = docType
             out = "No"
@@ -506,6 +515,29 @@ class Parse:
         sep = '  '
         LOB = LOB.split(sep, 2)[0]
         LOB = "TD " + LOB
+
+        #AdressedTo Cleaning
+        AddressedTo = str(AddressedTo)
+        AddressedTo = re.sub(fullForPat, "", AddressedTo)
+        AddressedTo = re.sub(":", "", AddressedTo)
+        AddressedTo = re.sub("Name", "", AddressedTo)
+        head,sep,tail = AddressedTo.partition('SIN')
+        AddressedTo = head
+        head, sep, tail = AddressedTo.partition('Corporate')
+        AddressedTo = head
+        head, sep, tail = AddressedTo.partition('DOB')
+        AddressedTo = head
+        head, sep, tail = AddressedTo.partition('Date')
+        AddressedTo = head
+        head, sep, tail = AddressedTo.partition('Social')
+        AddressedTo = head
+        hold = AddressedTo
+        AddressedTo_cutParam1 = extract_var_pass(hold, "information on")
+        if AddressedTo_cutParam1 == "Yes":
+            head, sep, tail = AddressedTo.partition('information on')
+            AddressedTo = tail
+        else:
+            AddressedTo = head
 
         var_list = [filename,
                     #LOB, Datesent,
