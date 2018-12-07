@@ -211,6 +211,9 @@ class Parse:
             cutString = document[index:upperLim]
             return (cutString)
 
+        def segmentFile(document, _top, _bottom):
+            string = document[_top : _bottom]
+            return (str(string))
 
         #Variables
         AddressedTo = ""
@@ -398,12 +401,12 @@ class Parse:
 
         #hold until move confirmed valid
         call_SIN_param1 = extract_var(string, "SIN")
-        call_SIN_param2 = extract_var(string, "social insurance number")
+        call_SIN_param2 = extract_var(string, "insurance number")
         if call_SIN_param1 == "Yes":
             SIN = str(charAfter(string, "SIN", 25))
             SIN = str(extract_sin(string, SIN))
         elif call_SIN_param2 == "Yes":
-            SIN = str(charAfter(string, "number", 25))
+            SIN = str(charAfter(string, "number", 10))
             SIN = str(extract_sin(string, SIN))
         if call_AddressedTo_param2 == "Yes":
             SIN = "null"
@@ -627,6 +630,3 @@ class Parse:
                 collect = Collector()
                 #collect._french_collector(var_list, passedLoc)
 
-
-class Clean:
-    print("Hold")
