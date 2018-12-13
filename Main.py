@@ -81,11 +81,12 @@ class INPRODGUI:
         #Variable check boxes for implemented Quality Control Measures
         CheckVar1 = IntVar()
 
+        #SHUT OFF CURRENTLY - NOT NEEDED IN FIRST POC DEPLOYMENT
         #Accuracy tuning checkbox
-        C1 = Checkbutton(master, text="Accuracy Tuner", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
+        #C1 = Checkbutton(master, text="Accuracy Tuner", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
 
         #
-        C1.place(x=200,y=340)
+        #C1.place(x=200,y=340)
 
         #
         self.trainFont_button = Button(master, text="Train Font", command=self.trainFont)

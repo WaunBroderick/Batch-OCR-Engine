@@ -25,7 +25,12 @@ class Parse:
         stop = stopwords.words('english')
         filename = passedFile
         fileloc = passedLoc
-        #fileloc = os.path.abspath(directory + filename)
+
+        dict_numbers = {'One' : 1, 'Two' : 2, 'Three' : 3, 'Four' : 4, 'Five' : 5, 'Six' : 6, 'Seven' : 7, 'Eight' : 8,
+                        'Nine' : 9, 'Ten' :  10, 'Eleven' : 11, 'Twelve' : 12, 'Thirteen' : 13,
+                        'Fourteen' : 14, 'Fifteen' : 15, 'Sixteen' : 16, 'Seventeen' : 17, 'Eighteen' : 18,
+                        'Nineteen': 19, 'Twenty' : 20, 'Twenty-One' : 21, 'Twenty-Two' : 22, 'Twenty-Three' : 23,
+                        'Twenty-Four' : 24,'Twenty-Five' : 25 }
 
         # Remove not registering formatting characters
         print("file location: " + fileloc)
@@ -44,6 +49,7 @@ class Parse:
             sentences = [nltk.word_tokenize(sent) for sent in sentences]
             sentences = [nltk.pos_tag(sent) for sent in sentences]
             return sentences
+
 
         def extract_addressedto(document):
             addressedto = []
@@ -159,16 +165,16 @@ class Parse:
             return(out)
 
 
-        def extract_var(document, docType):
-            lctx = docType
+        def extract_var(document, find):
+            lctx = find
             out = "No"
             r = re.search(lctx, string, re.IGNORECASE)
             if r is not None:
                 out = "Yes"
             return(out)
 
-        def extract_var_restricted(document, docType, start, stop):
-            lctx = docType
+        def extract_var_restricted(document, find, start, stop):
+            lctx = find
             out = "No"
             lowerLim = (start)
             upperLim = (stop)
@@ -215,8 +221,21 @@ class Parse:
             string = document[_top : _bottom]
             return (str(string))
 
+        def dictFind(document, dictionary, find, option):
+            string = document
+            if find in dictionary:
+                return dictionary[find]
+            else:
+                return("null")
+
+        def hasNumbers(document):
+            return any(char.isdigit() for char in document)
+
+
+
         #Variables
         AddressedTo = ""
+        SIN = ""
 
         required_openclose = ""
         required_accounts = ""
@@ -464,6 +483,21 @@ class Parse:
         amt_wiresIn = str(call_wiresInAMT)
         amt_wiresOut = str(call_wiresOutAMT)
 
+        alberta_x_deposits = ""
+
+
+        if call_AddressedTo_param2 == "Yes":
+            alberta_number_deposits = extract_search(string, "last", "deposits", "into")
+            if alberta_number_deposits is not None:
+                alberta_num_flag = hasNumbers(str(alberta_number_deposits))
+                if alberta_num_flag == True:
+                    #alberta_number_deposits = re.sub("\D", "", str(alberta_number_deposits))
+                    alberta_x_deposits = str(alberta_number_deposits)
+                else:
+                    alberta_x_deposits = str(alberta_number_deposits)
+
+        amount_alberta_deposits = alberta_x_deposits
+
         if AddressedTo == "":
             AddressedTo == Callfor
 
@@ -569,64 +603,8 @@ class Parse:
                     required_liabilityStatements,required_mortgageApplications,required_mortgageStatements,
                     required_loanApplications, required_loanStatements, required_CCStatements, required_CCApprovals,
                     required_termDeposits, required_guaranteedInvestments, required_mutualFunds,
-                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,required_RRIF
+                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,amount_alberta_deposits
                     ]
         print(var_list)
         collect = Collector()
         collect._english_collector(var_list, passedLoc)
-
-    def _FR_main_(self, passedFile, passedLoc):
-        # Sets the directory for the traversed completed files to be operated on
-        directory = "./completed/french/"
-        stop = stopwords.words('french')
-
-        for filename in os.listdir(directory):
-            if filename.endswith(".txt"):
-
-                filename = passedFile
-                fileloc = passedLoc
-                fileloc = os.path.abspath(directory + filename)
-
-                # Remove not registering formatting characters
-                with open(directory + filename, 'r+') as myfile:
-                    raw = myfile.read().replace(r'\n', '')
-                    wr = open(directory + filename, 'w')
-                    wr.write(raw)
-
-                    string = raw
-                    print(string)
-
-                def ie_preprocess(document):
-                    document = ' '.join([i for i in document.split() if i not in stop])
-                    sentences = nltk.sent_tokenize(document)
-                    sentences = [nltk.word_tokenize(sent) for sent in sentences]
-                    sentences = [nltk.pos_tag(sent) for sent in sentences]
-                    return sentences
-
-                # def extract_sin(document):
-                #     sin = []
-                #     top = string[200:800]
-                #     # r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3}|\d{3}[-\.\s]??\d{3})')
-                #     r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
-                #     sin_numbers = r.findall(top)
-                #     return [re.sub(r'\D', '', number) for number in sin_numbers]
-
-                def extract_dob(document):
-                    dob = []
-                    top = string[100:1500]
-                    r = re.compile(r'(\d{4}[-\.\s]??\d{2}[-\.\s]??\d{2}|\(\d{2}\)\s*\d{2}[-\.\s]??\d{4})')
-                    dob_numbers = r.findall(top)
-                    return [re.sub(r'\D', '', number) for number in dob_numbers]
-
-                #sin = extract_sin(string)
-                dob = extract_dob(string)
-
-                DOB = str(dob)
-                #SIN = str(sin)
-                #print("this is a SIN: ",SIN)
-                print("this is a DOB: ", DOB)
-
-                #var_list = [SIN, DOB]
-                collect = Collector()
-                #collect._french_collector(var_list, passedLoc)
-
