@@ -107,8 +107,8 @@ class INPRODGUI:
         print(value)
 
     #Progress bar functionality
-    def traitement(self):
-        def real_traitement():
+    def progress(self):
+        def real_progress():
             self.progress.grid(row=1, column=0)
             self.progress.start()
             time.sleep(5)
@@ -118,7 +118,7 @@ class INPRODGUI:
             self.btn['state'] = 'normal'
 
         self.btn['state'] = 'disabled'
-        threading.Thread(target=real_traitement).start()
+        threading.Thread(target=real_progress).start()
     #selecting the Scan directory functionality
     def scanDir(self):
         scanDir_selected = filedialog.askdirectory()
