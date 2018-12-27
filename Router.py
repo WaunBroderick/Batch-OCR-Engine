@@ -130,7 +130,8 @@ class Sort:
                    "Wires into Acc","//AMT PLACE HOLDER", "Wires out of Acc", "//AMT PLACE HOLDER",
                    "Liability Applications", "Liability Statements", "Mortgage Applications", "Mortgage Statements",
                    "Loan Applications", "Loan Statements", "Credit Card Statements", "Credit Card Approvals",
-                   "Term Deposits", "Guaranteed Investments", "Mutual Funds", "investment Acounts", "RRSP", "RSP",
+                   "Term Deposits", "investments", "Guaranteed Investments", "Mutual Funds", "investment Acounts",
+                   "Signature Cards", "Safety Deposit", "GIC","RRIF", "RRSP", "RSP",
                    "RESP", "TFSA",
                     ]
         with open(directory + '/eng-final.csv', 'a') as csvFile:

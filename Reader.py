@@ -20,6 +20,9 @@ import datetime
 
 class Parse:
 
+    global stop
+    stop = stopwords.words('english')
+
     def _CRA_main_(self, passedFile, passedLoc):
 
         stop = stopwords.words('english')
@@ -49,7 +52,6 @@ class Parse:
             sentences = [nltk.word_tokenize(sent) for sent in sentences]
             sentences = [nltk.pos_tag(sent) for sent in sentences]
             return sentences
-
 
         def extract_addressedto(document):
             addressedto = []
@@ -114,9 +116,6 @@ class Parse:
                 '(?:^|(?<= ))(documents|documents:|names|person(s)|information/documents)(.*\n?)(?:^|(?<= ))(You|if you)')
             return r.findall(string)
 
-        def extract_LOB(document):
-            r = re.compile('(?:^|(?<= ))(TD)(.*\n?)(?:^|(?<= ))(  )')
-            return r.findall(string)
 
         def extract_between(document):
             r = re.compile('(?<=period from)(.*\n?)(?=for all)')
@@ -129,22 +128,6 @@ class Parse:
                 '(?:^|(?<= ))(TD)(.*\n?)(?:^|(?<= ))(  )')
             return r.findall(top)
             return r.findall(string)
-
-        def extract_due(document):
-            due = []
-            sentences = ie_preprocess(document)
-            for tagged_sentence in sentences:
-                for chunk in nltk.ne_chunk(tagged_sentence):
-                    r = re.compile('(?<=Within)(.*\n?)(?= days of )')
-                    return r.findall(string)
-
-        def extract_period(document):
-            due = []
-            sentences = ie_preprocess(document)
-            for tagged_sentence in sentences:
-                for chunk in nltk.ne_chunk(tagged_sentence):
-                    r = re.compile('(?<=Within )(.*\n?)(?= days of )')
-                    return r.findall(string)
 
         def extract_reqBody(document):
             top = string[0:250]
@@ -238,7 +221,6 @@ class Parse:
         SIN = ""
 
         required_openclose = ""
-        required_accounts = ""
         required_chequeSides = ""
         required_chequeSides_Amt = ""
         required_chequesCancelled = ""
@@ -247,7 +229,6 @@ class Parse:
         required_deposits = ""
         required_withdrawls = ""
         required_creditMemo = ""
-        required_accounts = ""
         required_debitMemo = ""
         required_transfersIn = ""
         required_transfersOut = ""
@@ -263,18 +244,23 @@ class Parse:
         required_CCApprovals = ""
         required_termDeposits = ""
         required_guaranteedInvestments = ""
-        required_mutualFunds = ""
         required_investmentAccounts = ""
+        required_accountStatements = ""
         required_RRSP = ""
         required_RSP = ""
         required_RESP = ""
         required_TFSA = ""
         required_RRIF = ""
+        required_GIC = ""
         statementAcc = ""
         sidesCheques = ""
         cancelledCheques = ""
         required_knowCustomer = ""
         required_corporateNum = ""
+        required_safetyDeposit = ""
+        required_sigCards = ""
+        required_investments = ""
+        required_mutualFunds = ""
 
         amt_chequeSides = ""
         amt_chequesCancelled = ""
@@ -310,7 +296,7 @@ class Parse:
         ####Customer Request Details
         call_openCloseAcc = extract_var(string, "Opening and closing dates")
         call_accountsReq = extract_var(string, "accounts")
-        call_chequeSides = extract_var(string, "both sides of cheques")
+        call_chequeSides = extract_var(string, "cheques")
         call_chequesCancelled = extract_var(string, "cancelled cheques")
         call_bankDrafts = extract_var(string, "bank drafts")
         call_certCheques = extract_var(string, "certified cheques")
@@ -318,28 +304,19 @@ class Parse:
         call_withdrawlsReq = extract_var(string, "all withdrawls")
         call_creditMemo = extract_var(string, "credit memoe")
         call_accounts = extract_var(string, "all accounts")
-        call_debitMemo = extract_var(string, "debit memo")
         call_transfersIn = extract_var(string, "transfers in")
         call_transfersOut = extract_var(string, "transfers out")
         call_wiresIn = extract_var(string, "wires in")
         call_wiresOut = extract_var(string, "wires out")
-        call_liabilityApplications = extract_var(string, "liability application")
-        call_liabilityStatements = extract_var(string, "liability statement")
         call_mortgageApplications = extract_var(string, "mortgage application")
-        call_mortgageStatements = extract_var(string, "mortgage statement")
         call_loanApplications = extract_var(string, "loan applications")
-        call_loanStatements = extract_var(string, "loan statement")
         call_CCStatements = extract_var(string, "credit card statement")
         call_CCApprovals = extract_var(string, "credit card approval")
-        call_termDeposits =  extract_var(string, "term deposit")
         call_guaranteedInvestments =  extract_var(string, "guaranteed investments")
-        call_mutualFunds =  extract_var(string, "mutual funds")
         call_investmentAccounts =  extract_var(string, "investment accounts")
         call_RRSP =  extract_var(string, "RRSP")
-        call_RSP =  extract_var(string, "RSP")
         call_RESP =  extract_var(string, "RESP")
         call_TFSA =  extract_var(string, "TFSA")
-        call_RRIF = extract_var(string, "RRIF")
         call_knowCustomer = extract_var(string,"Know Your Customer")
 
         call_due = charThreshold(string, "days", 30, "date")
@@ -372,8 +349,7 @@ class Parse:
             required_corporateNum = extract_search(string, "Number:", "By", "  ")
             required_corporateNum = str(required_corporateNum)
 
-        # else:
-        #     AddressedTo = str(extract_addressedto(string))
+
         elif call_AddressedTo_param3 == "Yes":
             AddressedTo = extract_search(string, "Debtor's name", "Other name", " ")
             AddressedTo = str(AddressedTo)
@@ -407,6 +383,204 @@ class Parse:
 
 
 
+        ###############################GICS STARTS#############################################
+        # Complex catch statements
+        call_GIC_param1 = extract_var(string, "GIC")
+        call_GIC_param2 = extract_var(string, "GICs")
+        call_GIC_param3 = extract_var(string, "Guaranteed investment Certificates")
+
+        if call_GIC_param1 == "Yes":
+            required_GIC = "Yes"
+        elif call_GIC_param2 == "Yes":
+            required_GIC = "Yes"
+        elif call_GIC_param3 == "Yes":
+            required_GIC = "Yes"
+        else:
+            required_GIC = "No"
+
+        ###############################SAFETYDEPOSIT STARTS#############################################
+        # Complex catch statements
+        call_safetyDeposit_param1 = extract_var(string, "safety deposit")
+
+        if call_safetyDeposit_param1 == "Yes":
+            required_safetyDeposit = "Yes"
+        else:
+            required_safetyDeposit = "No"
+
+        ###############################Signature Cards STARTS#############################################
+        # Complex catch statements
+        call_sigCards_param1 = extract_var(string, "signature authority cards")
+        call_sigCards_param2 = extract_var(string, "signature cards")
+
+        if call_sigCards_param1 == "Yes":
+            required_sigCards = "Yes"
+        elif call_sigCards_param2 == "Yes":
+            required_sigCards = "Yes"
+        else:
+            required_sigCards = "No"
+
+        ###############################RRIF STARTS#############################################
+        # Complex catch statements
+        call_RRIF_param1 = extract_var(string, "RRIF")
+        call_RRIF_param2 = extract_var(string, "RRIFs")
+        call_RRIF_param3 = extract_var(string, "(RRIF)")
+        call_RRIF_param4 = extract_var(string, "registered retirement income fund")
+
+        if call_RRIF_param1 == "Yes":
+            required_RRIF = "Yes"
+        elif call_RRIF_param2 == "Yes":
+            required_RRIF = "Yes"
+        elif call_RRIF_param3 == "Yes":
+            required_RRIF = "Yes"
+        elif call_RRIF_param4 == "Yes":
+            required_RRIF = "Yes"
+        else:
+            required_RRIF = "No"
+
+        ###############################RSP STARTS#############################################
+        # Complex catch statements
+        call_RSP_param1 = extract_var(string, "RSP")
+        call_RSP_param2 = extract_var(string, "RSPs")
+        call_RSP_param3 = extract_var(string, "(RSP)")
+        call_RSP_param4 = extract_var(string, "retirement saving plans")
+        call_RSP_param5 = extract_var(string, "retirement savings plan")
+
+        if call_RSP_param1 == "Yes":
+            required_RSP = "Yes"
+        elif call_RSP_param2 == "Yes":
+            required_RSP = "Yes"
+        elif call_RSP_param3 == "Yes":
+            required_RSP = "Yes"
+        elif call_RSP_param4 == "Yes":
+            required_RSP = "Yes"
+        elif call_RSP_param5 == "Yes":
+            required_RSP = "Yes"
+        else:
+            required_RSP = "No"
+
+        ###############################LIABILITY APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_liabilityApps_param1 = extract_var(string, "liability applications")
+        call_liabilityApps_param2 = extract_var(string, "liability application")
+
+        if call_RSP_param1 == "Yes":
+            required_liabilityApplications = "Yes"
+        elif call_RSP_param2 == "Yes":
+            required_liabilityApplications = "Yes"
+        else:
+            required_liabilityApplications = "No"
+
+        ###############################LIABILITY STATEMENSTS STARTS#############################################
+        # Complex catch statements
+        call_liabilityState_param1 = extract_var(string, "liability statements")
+        call_liabilityState_param2 = extract_var(string, "liability statement")
+        call_liabilityState_param3 = extract_var(string, "liabilities")
+
+
+        if  call_liabilityState_param1 == "Yes":
+            required_liabilityStatements = "Yes"
+        elif  call_liabilityState_param2 == "Yes":
+            required_liabilityStatements = "Yes"
+        elif  call_liabilityState_param3 == "Yes":
+            required_liabilityStatements = "Yes"
+        else:
+            required_liabilityStatements = "No"
+
+        ###############################Investments STARTS#############################################
+        # Complex catch statements
+        call_investments_param1 = extract_var(string, "investments")
+        call_investments_param2 = extract_var(string, "investment accounts")
+        call_investments_param3 = extract_var(string, "investments statements")
+        call_investments_param4 = extract_var(string, "bonds")
+        call_investments_param5 = extract_var(string, "stocks")
+
+        if call_investments_param1 == "Yes":
+            required_investments = "Yes"
+        elif call_investments_param2 == "Yes":
+            required_investments = "Yes"
+        elif call_investments_param3 == "Yes":
+            required_investments = "Yes"
+        elif call_investments_param4 == "Yes":
+            required_investments = "Yes"
+        elif call_investments_param5 == "Yes":
+            required_investments = "Yes"
+        else:
+            required_investments = "No"
+
+        ###############################Term Deposits APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_termDeposits_param1 = extract_var(string, "term deposit")
+        call_termDeposits_param2 = extract_var(string, "term deposits")
+
+        if call_termDeposits_param1 == "Yes":
+            required_termDeposits = "Yes"
+        elif call_termDeposits_param2 == "Yes":
+            required_termDeposits = "Yes"
+        else:
+            required_termDeposits = "No"
+
+        ###############################Mutual Funds APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_mutualFunds_param1 = extract_var(string, "mutual fund")
+        call_mutualFunds_param2 = extract_var(string, "mutual funds")
+
+        if call_mutualFunds_param1 == "Yes":
+            required_mutualFunds = "Yes"
+        elif call_mutualFunds_param2 == "Yes":
+            required_mutualFunds = "Yes"
+        else:
+            required_mutualFunds = "No"
+
+        ###############################Loan Statements APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_loanStatement_param1 = extract_var(string, "loan statement")
+        call_loanStatement_param2 = extract_var(string, "loan statements")
+
+        if call_loanStatement_param1 == "Yes":
+            required_loanStatements = "Yes"
+        elif call_loanStatement_param2 == "Yes":
+            required_loanStatements = "Yes"
+        else:
+            required_loanStatements = "No"
+
+        ###############################Mortgage Statements APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_mortgageStatement_param1 = extract_var(string, "mortgage statement")
+        call_mortgageStatement_param2 = extract_var(string, "mortgage statements")
+
+        if call_mortgageStatement_param1 == "Yes":
+            required_mortgageStatements = "Yes"
+        elif call_mortgageStatement_param2 == "Yes":
+            required_mortgageStatements = "Yes"
+        else:
+            required_mortgageStatements = "No"
+
+        ###############################Debit Memo APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_debitMemo_param1 = extract_var(string, "debit memo")
+        call_debitMemo_param2 = extract_var(string, "debit memos")
+
+        if call_debitMemo_param1 == "Yes":
+            required_debitMemo = "Yes"
+        elif call_debitMemo_param2 == "Yes":
+            required_debitMemo = "Yes"
+        else:
+            required_debitMemo = "No"
+
+        ###############################Account Statements STARTS#############################################
+        # Complex catch statements
+        call_accountStatements_param1 = extract_var(string, "statements of account")
+        call_accountStatements_param2 = extract_var(string, "statement of account")
+        call_accountStatements_param3 = extract_var(string, "account statement")
+
+        if call_accountStatements_param1 == "Yes":
+            required_accountStatements = "Yes"
+        elif call_accountStatements_param2 == "Yes":
+            required_accountStatements = "Yes"
+        elif call_accountStatements_param3 == "Yes":
+            required_accountStatements = "Yes"
+        else:
+            required_accountStatements = "No"
 
 
         # Converting the necessary values to strings
@@ -438,7 +612,6 @@ class Parse:
 
 
         required_openclose = str(call_openCloseAcc)
-        required_accounts = str(call_accountsReq)
         required_chequeSides = str(call_chequeSides)
         required_chequesCancelled = str(call_chequesCancelled)
         required_bankDrafts = str(call_bankDrafts)
@@ -446,29 +619,19 @@ class Parse:
         required_deposits = str(call_depositReq)
         required_withdrawls = str(call_withdrawlsReq)
         required_creditMemo = str(call_creditMemo)
-        required_debitMemo = str(call_debitMemo)
-        required_accounts = str(call_accounts)
         required_transfersIn = str(call_transfersIn)
         required_transfersOut = str(call_transfersOut)
         required_wiresIn = str(call_wiresIn)
         required_wiresOut = str(call_wiresOut)
-        required_liabilityApplications = str(call_liabilityApplications)
-        required_liabilityStatements =  str(call_liabilityStatements)
         required_mortgageApplications = str(call_mortgageApplications)
-        required_mortgageStatements = str(call_mortgageStatements)
         required_loanApplications = str(call_loanApplications)
-        required_loanStatements = str (call_loanStatements)
         required_CCStatements = str(call_CCStatements)
         required_CCApprovals = str(call_CCApprovals)
-        required_termDeposits = str(call_termDeposits)
         required_guaranteedInvestments = str(call_guaranteedInvestments)
-        required_mutualFunds = str(call_mutualFunds)
         required_investmentAccounts = str(call_investmentAccounts)
         required_RRSP = str(call_RRSP)
-        required_RSP = str(call_RSP)
         required_RESP = str(call_RESP)
         required_TFSA = str(call_TFSA)
-        required_RRIF = str(call_RRIF)
         required_knowCustomer = str(call_knowCustomer)
 
         amt_chequeSides = str(call_chequeSidesAMT)
@@ -595,15 +758,15 @@ class Parse:
                     SIN, required_corporateNum, required_DOB,
                     #Due,Taxcenter, Acts, Requested,Callfor, requestingBody,
                     option_clientprofile, required_knowCustomer, required_daysBetween,
-                    required_openclose, required_accounts, required_chequeSides, amt_chequeSides,
+                    required_openclose, required_accountStatements, required_chequeSides, amt_chequeSides,
                     required_chequesCancelled,amt_chequesCancelled,required_bankDrafts,amt_bankDraft, required_certCheques,amt_certCheques,
                     required_deposits,amt_deposits, required_withdrawls,amt_withdrawls,"", required_creditMemo,
                     required_debitMemo,amt_debitMemo, required_transfersIn, amt_transfersIn, required_transfersOut, amt_transferOut,
                     required_wiresIn,amt_wiresIn, required_wiresOut, amt_wiresOut, required_liabilityApplications,
                     required_liabilityStatements,required_mortgageApplications,required_mortgageStatements,
                     required_loanApplications, required_loanStatements, required_CCStatements, required_CCApprovals,
-                    required_termDeposits, required_guaranteedInvestments, required_mutualFunds,
-                    required_investmentAccounts, required_RRSP, required_RSP, required_RESP,required_TFSA,amount_alberta_deposits
+                    required_termDeposits, required_investments, required_guaranteedInvestments, required_mutualFunds,
+                    required_investmentAccounts, required_sigCards, required_safetyDeposit, required_GIC, required_RRIF, required_RRSP, required_RSP, required_RESP,required_TFSA,amount_alberta_deposits
                     ]
         print(var_list)
         collect = Collector()
