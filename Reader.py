@@ -1,6 +1,6 @@
 #####################DO NOT REMOVE###############################
 ##                                                             ##
-##          DEVELOPED BY WAUN BRODERICK & MUDIT SHARMA         ##
+##                DEVELOPED BY WAUN BRODERICK                  ##
 ##     PERSONAL BANKING - PERFORMANCE INTEGRITY OPERATIONS     ##
 ##                                                             ##
 ##                         08/208                              ##
@@ -35,16 +35,45 @@ class Parse:
                         'Nineteen': 19, 'Twenty' : 20, 'Twenty-One' : 21, 'Twenty-Two' : 22, 'Twenty-Three' : 23,
                         'Twenty-Four' : 24,'Twenty-Five' : 25 }
 
+        month_numbers = {'January': 1, 'February':2 , 'March':3, 'April':4, 'May':5, 'June':6, 'July':7, 'August':8,
+                         'September':9, 'October':10, 'November':11, 'December':12}
+
+        year = 1900
+        years = []
+        while year < 2100:
+            years.append(year)
+            year += 1
+
+        months = []
+        months = ['January', 'Jan', 'February' , 'Feb', 'March', 'Mar', 'April', 'Apr', 'May', 'June', 'Jun', 'July', 'Jul',
+                  'August', 'Aug', 'September', 'Sept', 'October', 'Oct', 'November', 'Nov', 'December', 'Dec']
+
+        day = 0
+        days = []
+        while day < 31:
+            days.append(day)
+            day += 1
+
+        dateList = []
+        days = list(map(str, days))
+        years = list(map(str, years))
+
+        dateList.extend(days)
+        dateList.extend(months)
+        dateList.extend(years)
+
+
+
         # Remove not registering formatting characters
-        print("file location: " + fileloc)
-        print("file name: " + filename)
+        #print("file location: " + fileloc)
+        #print("file name: " + filename)
         with open(fileloc + filename, 'r+') as myfile:
             raw = myfile.read().replace(r'\n', '')
             wr = open(fileloc + filename, 'w')
             wr.write(raw)
 
             string = raw
-            print(string)
+            #print(string)
 
         def ie_preprocess(document):
             document = ' '.join([i for i in document.split() if i not in stop])
@@ -78,7 +107,7 @@ class Parse:
             r = re.compile('(?<= information for)(.*\n?)(?= Within )')
             return r.findall(string)
 
-        def extract_sin(document, string):
+        def extract_sin(string):
             String = string
             # r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3}|\d{3}[-\.\s]??\d{3})')
             r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
@@ -178,7 +207,7 @@ class Parse:
             lowerLim = (index - threshold)
             upperLim = (index + threshold)
             cutString = document[lowerLim:upperLim]
-            print(cutString)
+            #print(cutString)
             if search == "num":
                 cutString = cutString.replace(",", "")
                 preList = re.findall(r'\b\d+\b', cutString)
@@ -214,6 +243,20 @@ class Parse:
         def hasNumbers(document):
             return any(char.isdigit() for char in document)
 
+        def quantityFind(document, find):
+            string = document
+            r = re.findall(find, string, re.IGNORECASE)
+            return (len(r))
+
+        def retriveAll(document, find, _following):
+            string = document
+            following = str(_following)
+            allFinds = re.findall(find + r'.{' + following + r'}', string, re.IGNORECASE)
+            listFinds = ', '.join(allFinds)
+            #print(listFinds)
+            return(listFinds)
+
+
 
 
         #Variables
@@ -228,6 +271,8 @@ class Parse:
         required_certCheques = ""
         required_deposits = ""
         required_withdrawls = ""
+        required_depositSlips = ""
+        required_withdrawlSlips = ""
         required_creditMemo = ""
         required_debitMemo = ""
         required_transfersIn = ""
@@ -241,6 +286,7 @@ class Parse:
         required_loanApplications = ""
         required_loanStatements = ""
         required_CCStatements = ""
+        required_CCApplications = ""
         required_CCApprovals = ""
         required_termDeposits = ""
         required_guaranteedInvestments = ""
@@ -308,8 +354,6 @@ class Parse:
         call_transfersOut = extract_var(string, "transfers out")
         call_wiresIn = extract_var(string, "wires in")
         call_wiresOut = extract_var(string, "wires out")
-        call_mortgageApplications = extract_var(string, "mortgage application")
-        call_loanApplications = extract_var(string, "loan applications")
         call_CCStatements = extract_var(string, "credit card statement")
         call_CCApprovals = extract_var(string, "credit card approval")
         call_guaranteedInvestments =  extract_var(string, "guaranteed investments")
@@ -362,14 +406,47 @@ class Parse:
 
 
 
+        dateCounter = 0
+        dates = []
         call_DOB_param1 = extract_var(string, "DOB")
-        call_DOB_param2 = extract_var(string, "birth")
+        call_DOB_param2 = extract_var(string, "date of birth")
+        call_DOB_param3 = extract_var(string, "Birth Date of")
+        call_DOB_param4 = extract_var(string, "D.O.B.")
+        call_DOB_param5 = extract_var(string, "Birth:")
         if call_DOB_param1 == "Yes":
-            required_DOB = extract_search(string, "DOB", "Address", "  ")
-        elif call_DOB_param2 == "Yes":
-            required_DOB = extract_search(string, "birth", "Social", "  ")
-        else:
-            required_DOB = ""
+            required_DOB = retriveAll(string, "DOB", 23)
+        if call_DOB_param2 == "Yes":
+            required_DOB = retriveAll(string, "date of birth", 29)
+        if call_DOB_param3 == "Yes":
+            required_DOB = retriveAll(string, "Birth date of", 29)
+        if call_DOB_param4 == "Yes":
+            required_DOB = retriveAll(string, "D.O.B.", 26)
+        if call_DOB_param5 == "Yes":
+            required_DOB = retriveAll(string, "Birth:", 26)
+
+
+        required_DOB = ''.join(required_DOB)
+        required_DOB = required_DOB.replace(",", "")
+        required_DOB = required_DOB.replace("-", "")
+        required_DOB = required_DOB.replace(".", "")
+        required_DOB = required_DOB.replace(")", "")
+        required_DOB = required_DOB.replace("(", "")
+        required_DOB = required_DOB.replace(";", "")
+        DOB_split = required_DOB.split(" ")
+
+        DOB_clean = [x for x in DOB_split if x in dateList]
+
+        print("Before: ")
+        print(DOB_split)
+        print("After: ")
+        print(DOB_clean)
+        print("Days List: ")
+        print(days)
+        DOB_clean_string = ' '.join(DOB_clean)
+
+        required_DOB = DOB_clean_string
+
+
 
         call_DOB_param1 = extract_var(string, "period")
         call_DOB_param2 = extract_var(string, "last 12 months")
@@ -439,11 +516,13 @@ class Parse:
 
         ###############################RSP STARTS#############################################
         # Complex catch statements
-        call_RSP_param1 = extract_var(string, "RSP")
-        call_RSP_param2 = extract_var(string, "RSPs")
-        call_RSP_param3 = extract_var(string, "(RSP)")
-        call_RSP_param4 = extract_var(string, "retirement saving plans")
-        call_RSP_param5 = extract_var(string, "retirement savings plan")
+        call_RSP_param1 = extract_var(string, " RSP")
+        call_RSP_param2 = extract_var(string, " RSPs")
+        call_RSP_param3 = extract_var(string, ",RSP")
+        call_RSP_param4 = extract_var(string, ",RSPs")
+        call_RSP_param5 = extract_var(string, "(RSP)")
+        call_RSP_param6 = extract_var(string, "retirement saving plans")
+        call_RSP_param7 = extract_var(string, "retirement savings plan")
 
         if call_RSP_param1 == "Yes":
             required_RSP = "Yes"
@@ -454,6 +533,10 @@ class Parse:
         elif call_RSP_param4 == "Yes":
             required_RSP = "Yes"
         elif call_RSP_param5 == "Yes":
+            required_RSP = "Yes"
+        elif call_RSP_param6 == "Yes":
+            required_RSP = "Yes"
+        elif call_RSP_param7 == "Yes":
             required_RSP = "Yes"
         else:
             required_RSP = "No"
@@ -555,6 +638,30 @@ class Parse:
         else:
             required_mortgageStatements = "No"
 
+        ###############################Loan Statements APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_loanApplications_param1 = extract_var(string, "loan application")
+        call_loanApplications_param2 = extract_var(string, "loan applications")
+
+        if call_loanApplications_param1 == "Yes":
+            required_loanApplications = "Yes"
+        elif call_loanApplications_param2 == "Yes":
+            required_loanApplications = "Yes"
+        else:
+            required_loanApplications = "No"
+
+        ###############################Mortgage Statements APPLICATIONS STARTS#############################################
+        # Complex catch statements
+        call_mortgageApplications_param1 = extract_var(string, "mortgage application")
+        call_mortgageApplications_param2 = extract_var(string, "mortgage applications")
+
+        if call_mortgageApplications_param1 == "Yes":
+            required_mortgageApplications = "Yes"
+        elif call_mortgageApplications_param2 == "Yes":
+            required_mortgageApplications = "Yes"
+        else:
+            required_mortgageApplications = "No"
+
         ###############################Debit Memo APPLICATIONS STARTS#############################################
         # Complex catch statements
         call_debitMemo_param1 = extract_var(string, "debit memo")
@@ -572,6 +679,7 @@ class Parse:
         call_accountStatements_param1 = extract_var(string, "statements of account")
         call_accountStatements_param2 = extract_var(string, "statement of account")
         call_accountStatements_param3 = extract_var(string, "account statement")
+        call_accountStatements_param4 = extract_var(string, "bank statements")
 
         if call_accountStatements_param1 == "Yes":
             required_accountStatements = "Yes"
@@ -579,8 +687,42 @@ class Parse:
             required_accountStatements = "Yes"
         elif call_accountStatements_param3 == "Yes":
             required_accountStatements = "Yes"
+        elif call_accountStatements_param4 == "Yes":
+            required_accountStatements = "Yes"
         else:
             required_accountStatements = "No"
+
+        ###############################Credit Application STARTS#############################################
+        # Complex catch statements
+        call_CCApplications_param1 = extract_var(string, "credit applications")
+        call_CCApplications_param2 = extract_var(string, "credit applications")
+
+        if call_CCApplications_param1 == "Yes":
+            required_CCApplications = "Yes"
+        elif call_CCApplications_param2 == "Yes":
+            required_CCApplications = "Yes"
+        else:
+            required_CCApplications = "No"
+
+
+        ###############################Deposit Slips STARTS#############################################
+        # Complex catch statements
+        call_depositSlips_param1 = extract_var(string, "deposit slip")
+
+        if call_depositSlips_param1 == "Yes":
+            required_depositSlips = "Yes"
+        else:
+            required_depositSlips = "No"
+
+
+        ###############################Withdrawl Slips STARTS#############################################
+        # Complex catch statements
+        call_withdrawlSlips_param1 = extract_var(string, "withdrawl slip")
+
+        if call_withdrawlSlips_param1 == "Yes":
+            required_withdrawlSlips = "Yes"
+        else:
+            required_withdrawlSlips = "No"
 
 
         # Converting the necessary values to strings
@@ -593,16 +735,85 @@ class Parse:
 
 
         #hold until move confirmed valid
-        call_SIN_param1 = extract_var(string, "SIN")
-        call_SIN_param2 = extract_var(string, "insurance number")
+        call_SIN_param1 = extract_var(string, "SIN ")
+        call_SIN_param2 = extract_var(string, "SIN:")
+        call_SIN_param3 = extract_var(string, "insurance number")
+        call_SIN_param4 = extract_var(string, "SIN#")
+        call_SIN_param5 = extract_var(string, "S.I.N.")
+        call_SIN_param6 = extract_var(string, "insurance number:")
+
         if call_SIN_param1 == "Yes":
-            SIN = str(charAfter(string, "SIN", 25))
-            SIN = str(extract_sin(string, SIN))
-        elif call_SIN_param2 == "Yes":
-            SIN = str(charAfter(string, "number", 10))
-            SIN = str(extract_sin(string, SIN))
-        if call_AddressedTo_param2 == "Yes":
-            SIN = "null"
+            SIN = retriveAll(string, "SIN ", 17)
+            SIN = SIN.replace("o", "0")
+            SIN = SIN.replace("O", "0")
+            SIN = SIN.replace("l", "1")
+            SIN = SIN.replace("L", "1")
+            SIN = SIN.replace("(", "")
+            SIN = SIN.replace(")", "")
+            SINfind = extract_sin(SIN)
+            SIN = SINfind
+            print(SINfind)
+
+        if call_SIN_param2 == "Yes":
+            SIN = retriveAll(string, "SIN:", 18)
+            SIN = SIN.replace("o", "0")
+            SIN = SIN.replace("O", "0")
+            SIN = SIN.replace("l", "1")
+            SIN = SIN.replace("L", "1")
+            SIN = SIN.replace("(", "")
+            SIN = SIN.replace(")", "")
+            SINfind = extract_sin(SIN)
+            SIN = SINfind
+            print(SINfind)
+        if call_SIN_param3 == "Yes":
+            SIN = retriveAll(string, "insurance number", 29)
+            SIN = SIN.replace("o", "0")
+            SIN = SIN.replace("O", "0")
+            SIN = SIN.replace("l", "1")
+            SIN = SIN.replace("L", "1")
+            SIN = SIN.replace("(", "")
+            SIN = SIN.replace(")", "")
+            SINfind = extract_sin(SIN)
+            SIN = SINfind
+            print(SIN)
+        if call_SIN_param4 == "Yes":
+            SIN = retriveAll(string, "SIN#", 18)
+            SIN = SIN.replace("o", "0")
+            SIN = SIN.replace("O", "0")
+            SIN = SIN.replace("l", "1")
+            SIN = SIN.replace("L", "1")
+            SIN = SIN.replace("(", "")
+            SIN = SIN.replace(")", "")
+            SINfind = extract_sin(SIN)
+            SIN = SINfind
+            print(SINfind)
+        if call_SIN_param5 == "Yes":
+            SIN = retriveAll(string, r"S.I.N.", 20)
+            SIN = SIN.replace("o", "0")
+            SIN = SIN.replace("O", "0")
+            SIN = SIN.replace("l", "1")
+            SIN = SIN.replace("L", "1")
+            SIN = SIN.replace("(", "")
+            SIN = SIN.replace(")", "")
+            SINfind = extract_sin(SIN)
+            SIN = SINfind
+            print(SINfind)
+        if call_SIN_param6 == "Yes":
+            SIN = retriveAll(string, "insurance number:", 20)
+            SIN = SIN.replace("o", "0")
+            SIN = SIN.replace("O", "0")
+            SIN = SIN.replace("l", "1")
+            SIN = SIN.replace("L", "1")
+            SIN = SIN.replace("(", "")
+            SIN = SIN.replace(")", "")
+            SINfind = extract_sin(SIN)
+            SIN = SINfind
+            print(SINfind)
+
+        # numSum_SIN = 0
+        # numSum_SIN = sum(x.isdigit() for x in SIN)
+        # if numSum_SIN <4:
+        #     SIN = "null"
 
         Callfor = str(call_callFor)
         LOB = str(call_letterTitle)
@@ -623,8 +834,6 @@ class Parse:
         required_transfersOut = str(call_transfersOut)
         required_wiresIn = str(call_wiresIn)
         required_wiresOut = str(call_wiresOut)
-        required_mortgageApplications = str(call_mortgageApplications)
-        required_loanApplications = str(call_loanApplications)
         required_CCStatements = str(call_CCStatements)
         required_CCApprovals = str(call_CCApprovals)
         required_guaranteedInvestments = str(call_guaranteedInvestments)
@@ -718,7 +927,7 @@ class Parse:
         Requested = re.sub("You", "", Requested)
 
         # SIN cleaning
-        SIN = re.sub(fullForPat, "", SIN)
+        #SIN = re.sub(fullForPat, "", SIN)
 
         # CallTo cleaning
         Callfor = re.sub(fullForPat, "", Callfor)
@@ -728,6 +937,40 @@ class Parse:
         sep = '  '
         LOB = LOB.split(sep, 2)[0]
         LOB = "TD " + LOB
+
+        # #DOB Cleaning
+        #required_DOB = str(required_DOB)
+        # required_DOB = re.sub(fullForPat, "", required_DOB)
+        # required_DOB = re.sub("birth", "", required_DOB)
+        # required_DOB = re.sub("DOB", "", required_DOB)
+        # required_DOB = re.sub("D.O.B.", "", required_DOB)
+        # required_DOB = re.sub("date", "", required_DOB)
+        # required_DOB = re.sub("of", "", required_DOB)
+        # required_DOB = re.sub(":", "", required_DOB)
+        # required_DOB = re.sub("is", "", required_DOB)
+        # required_DOB = re.sub(";", "", required_DOB)
+        # required_DOB = re.sub("social", "", required_DOB)
+
+        # sep = 'SIN'
+        # required_DOB = re.split(sep, required_DOB, flags=re.IGNORECASE)[0]
+        #
+        # sep2 = 'Dear'
+        # required_DOB = re.split(sep2, required_DOB, flags=re.IGNORECASE)[0]
+        #
+        # sep3 = 'and'
+        # required_DOB = re.split(sep3, required_DOB, flags=re.IGNORECASE)[0]
+        #
+        # sep4 = 'within'
+        # required_DOB = re.split(sep4, required_DOB, flags=re.IGNORECASE)[0]
+        #
+        # sep5 = 'in'
+        # required_DOB = re.split(sep5, required_DOB, flags=re.IGNORECASE)[0]
+        #
+        # sep6 = 'all'
+        # required_DOB = re.split(sep6, required_DOB, flags=re.IGNORECASE)[0]
+        #
+        #
+        # required_DOB = re.split(r"\)", required_DOB, flags=re.IGNORECASE)[0]
 
         #AdressedTo Cleaning
         AddressedTo = str(AddressedTo)
@@ -760,14 +1003,14 @@ class Parse:
                     option_clientprofile, required_knowCustomer, required_daysBetween,
                     required_openclose, required_accountStatements, required_chequeSides, amt_chequeSides,
                     required_chequesCancelled,amt_chequesCancelled,required_bankDrafts,amt_bankDraft, required_certCheques,amt_certCheques,
-                    required_deposits,amt_deposits, required_withdrawls,amt_withdrawls,"", required_creditMemo,
+                    required_deposits, required_depositSlips, amt_deposits, required_withdrawls, required_withdrawlSlips, amt_withdrawls,"", required_creditMemo,
                     required_debitMemo,amt_debitMemo, required_transfersIn, amt_transfersIn, required_transfersOut, amt_transferOut,
                     required_wiresIn,amt_wiresIn, required_wiresOut, amt_wiresOut, required_liabilityApplications,
                     required_liabilityStatements,required_mortgageApplications,required_mortgageStatements,
-                    required_loanApplications, required_loanStatements, required_CCStatements, required_CCApprovals,
+                    required_loanApplications, required_loanStatements, required_CCApplications, required_CCStatements, required_CCApprovals,
                     required_termDeposits, required_investments, required_guaranteedInvestments, required_mutualFunds,
                     required_investmentAccounts, required_sigCards, required_safetyDeposit, required_GIC, required_RRIF, required_RRSP, required_RSP, required_RESP,required_TFSA,amount_alberta_deposits
                     ]
-        print(var_list)
+        #print(var_list)
         collect = Collector()
         collect._english_collector(var_list, passedLoc)

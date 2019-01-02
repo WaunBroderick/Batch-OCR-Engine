@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 #####################DO NOT REMOVE###############################
 ##                                                             ##
-##          DEVELOPED BY WAUN BRODERICK & MUDIT SHARMA         ##
+##                DEVELOPED BY WAUN BRODERICK                  ##
 ##     PERSONAL BANKING - PERFORMANCE INTEGRITY OPERATIONS     ##
 ##                                                             ##
 ##                         08/2018                             ##
