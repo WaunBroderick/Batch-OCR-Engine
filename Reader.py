@@ -109,7 +109,6 @@ class Parse:
 
         def extract_sin(string):
             String = string
-            # r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3}|\d{3}[-\.\s]??\d{3})')
             r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
             sin_numbers = r.findall(String)
             return [re.sub(r'\D', '', number) for number in sin_numbers]
@@ -344,7 +343,6 @@ class Parse:
         call_accountsReq = extract_var(string, "accounts")
         call_chequeSides = extract_var(string, "cheques")
         call_chequesCancelled = extract_var(string, "cancelled cheques")
-        call_bankDrafts = extract_var(string, "bank drafts")
         call_certCheques = extract_var(string, "certified cheques")
         call_depositReq = extract_var(string, "all deposits")
         call_withdrawlsReq = extract_var(string, "all withdrawls")
@@ -406,8 +404,6 @@ class Parse:
 
 
 
-        dateCounter = 0
-        dates = []
         call_DOB_param1 = extract_var(string, "DOB")
         call_DOB_param2 = extract_var(string, "date of birth")
         call_DOB_param3 = extract_var(string, "Birth Date of")
@@ -704,6 +700,18 @@ class Parse:
         else:
             required_CCApplications = "No"
 
+        ###############################Credit Application STARTS#############################################
+        # Complex catch statements
+        call_bankDrafts_param1 = extract_var(string, "bank draft")
+        call_bankDrafts_param2 = extract_var(string, "bank drafts")
+
+        if call_CCApplications_param1 == "Yes":
+            required_CCApplications = "Yes"
+        elif call_CCApplications_param2 == "Yes":
+            required_CCApplications = "Yes"
+        else:
+            required_CCApplications = "No"
+
 
         ###############################Deposit Slips STARTS#############################################
         # Complex catch statements
@@ -723,6 +731,8 @@ class Parse:
             required_withdrawlSlips = "Yes"
         else:
             required_withdrawlSlips = "No"
+
+
 
 
         # Converting the necessary values to strings
@@ -825,7 +835,6 @@ class Parse:
         required_openclose = str(call_openCloseAcc)
         required_chequeSides = str(call_chequeSides)
         required_chequesCancelled = str(call_chequesCancelled)
-        required_bankDrafts = str(call_bankDrafts)
         required_certCheques = str(call_certCheques)
         required_deposits = str(call_depositReq)
         required_withdrawls = str(call_withdrawlsReq)
@@ -1002,7 +1011,7 @@ class Parse:
                     #Due,Taxcenter, Acts, Requested,Callfor, requestingBody,
                     option_clientprofile, required_knowCustomer, required_daysBetween,
                     required_openclose, required_accountStatements, required_chequeSides, amt_chequeSides,
-                    required_chequesCancelled,amt_chequesCancelled,required_bankDrafts,amt_bankDraft, required_certCheques,amt_certCheques,
+                    required_chequesCancelled,amt_chequesCancelled,amt_bankDraft, required_certCheques,amt_certCheques,
                     required_deposits, required_depositSlips, amt_deposits, required_withdrawls, required_withdrawlSlips, amt_withdrawls,"", required_creditMemo,
                     required_debitMemo,amt_debitMemo, required_transfersIn, amt_transfersIn, required_transfersOut, amt_transferOut,
                     required_wiresIn,amt_wiresIn, required_wiresOut, amt_wiresOut, required_liabilityApplications,
