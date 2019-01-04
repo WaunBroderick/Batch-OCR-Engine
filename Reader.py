@@ -71,6 +71,10 @@ class Parse:
         dateList.extend(months)
         dateList.extend(years)
 
+        #List for words regarding amounts required
+        amountTerms = ['over', 'under', 'excess', 'above', 'exceeding', '$', ',', '.', '0', '1', '2', '3', '4', '5','6',
+                       '7', '8', '9', 0, 1, 2, 3, 4, 5, 6, 7 , 8 , 9, ]
+
 
         #To open each passed document and assign it to a string that can be manipulated
         with open(fileloc + filename, 'r+') as myfile:
@@ -265,8 +269,12 @@ class Parse:
                 return("null")
 
         #returns if the string passed has any characters in it
-        def hasNumbers(document):
-            return any(char.isdigit() for char in document)
+        _digits = re.compile('\d')
+        def containsDigits(string):
+           return bool(_digits.search(string))
+
+
+
 
         #Pass a string and a word and return how many instances of the word the string contains
         def quantityFind(document, find):
@@ -316,7 +324,7 @@ class Parse:
         required_CCApplications = ""
         required_CCApprovals = ""
         required_termDeposits = ""
-        required_guaranteedInvestments = ""
+
         required_investmentAccounts = ""
         required_accountStatements = ""
         required_RRSP = ""
@@ -367,9 +375,7 @@ class Parse:
         call_requestingBody = extract_reqBody(string)
 
         ####Customer Request Details
-        call_openCloseAcc = extract_var(string, "Opening and closing dates")
         call_accountsReq = extract_var(string, "accounts")
-        call_chequeSides = extract_var(string, "cheques")
         call_chequesCancelled = extract_var(string, "cancelled cheques")
         call_certCheques = extract_var(string, "certified cheques")
         call_depositReq = extract_var(string, "all deposits")
@@ -379,17 +385,11 @@ class Parse:
         call_transfersOut = extract_var(string, "transfers out")
         call_wiresIn = extract_var(string, "wires in")
         call_wiresOut = extract_var(string, "wires out")
-        call_CCStatements = extract_var(string, "credit card statement")
         call_CCApprovals = extract_var(string, "credit card approval")
-        call_guaranteedInvestments =  extract_var(string, "guaranteed investments")
         call_investmentAccounts =  extract_var(string, "investment accounts")
-        call_RRSP =  extract_var(string, "RRSP")
-        call_RESP =  extract_var(string, "RESP")
-        call_TFSA =  extract_var(string, "TFSA")
         call_knowCustomer = extract_var(string,"Know Your Customer")
 
         call_due = charThreshold(string, "days", 30, "date")
-        call_chequeSidesAMT = charThreshold(string, "both sides of cheques", 50, "num")
         call_chequesCancelledAMT = charThreshold(string, "cancelled cheques", 50, "num")
         call_bankDraftAMT = charThreshold(string, "bank drafts", 50, "num")
         call_depositAMT = charThreshold(string, "all deposits", 50, "num")
@@ -412,6 +412,7 @@ class Parse:
         call_AddressedTo_param2 = extract_var_restricted(string, "Alberta",0,1500)
         call_AddressedTo_param3 = extract_var_restricted(string, "Debtor's name",0,1500)
         call_AddressedTo_param4 = extract_var_restricted(string, "Subject",0,1500)
+        call_AddressedTo_Param5 = extract_var_restricted(string, " Name: ", 0, 1500)
 
         #If alberta identifer is caught do the following
         if call_AddressedTo_param2 == "Yes":
@@ -427,11 +428,27 @@ class Parse:
         elif call_AddressedTo_param4 == "Yes":
             AddressedTo = extract_search(string, "Subject", "SIN", " ")
             AddressedTo = str(AddressedTo)
+        elif call_AddressedTo_Param5 == "Yes":
+            AddressedTo = extract_search(string, "Name:", "Other", " ")
+            AddressedTo = str(AddressedTo)
         else:
             AddressedTo = str(extract_addressedto(string))
             required_corporateNum = "null"
 
         #↑↑↑↑↑↑↑↑To determine if the file is from Alberta and process its few certain differences↑↑↑↑↑↑↑↑#
+
+
+        ##########---------- Mutual Funds Starts ----------##########
+        call_openClose_param1 = extract_var(string, "opening and closing")
+        call_openClose_param2 = extract_var(string, "open and close")
+
+
+        if call_openClose_param1 == "Yes":
+            required_openclose = "Yes"
+        elif call_openClose_param2 == "Yes":
+            required_openclose = "Yes"
+        else:
+            required_openclose= "No"
 
         ##########---------- Date of Birth Starts ----------##########
         #Variables to search for
@@ -464,8 +481,20 @@ class Parse:
         #If the string contains any words not in the dateList arrau (days,months,years) remove them
         DOB_clean = [x for x in DOB_split if x in dateList]
 
+
+        for x in DOB_clean[:]:
+            if x in years:
+                DOB_clean.insert((DOB_clean.index(x) + 1) , ",")
+
         #join all the information in the array together with spaces
         DOB_clean_string = ' '.join(DOB_clean)
+
+
+        DOB_comma_quantity = quantityFind(DOB_clean_string, ",")
+        if DOB_comma_quantity == 1:
+            head, sep, tail = DOB_clean_string.partition(', ')
+            DOB_clean_string = head
+
 
         #DOB final is equal to the joined array
         required_DOB = DOB_clean_string
@@ -508,10 +537,16 @@ class Parse:
         ##########---------- Signature Cards Starts ----------##########
         call_sigCards_param1 = extract_var(string, "signature authority cards")
         call_sigCards_param2 = extract_var(string, "signature cards")
+        call_sigCards_param3 = extract_var(string, "signature card")
+        call_sigCards_param4 = extract_var(string, "signature authority card")
 
         if call_sigCards_param1 == "Yes":
             required_sigCards = "Yes"
         elif call_sigCards_param2 == "Yes":
+            required_sigCards = "Yes"
+        elif call_sigCards_param3 == "Yes":
+            required_sigCards = "Yes"
+        elif call_sigCards_param4 == "Yes":
             required_sigCards = "Yes"
         else:
             required_sigCards = "No"
@@ -533,7 +568,7 @@ class Parse:
         else:
             required_RRIF = "No"
 
-        ##########---------- RRSP Starts ----------##########
+        ##########---------- RSP Starts ----------##########
         call_RSP_param1 = extract_var(string, " RSP")
         call_RSP_param2 = extract_var(string, " RSPs")
         call_RSP_param3 = extract_var(string, ",RSP")
@@ -558,6 +593,72 @@ class Parse:
             required_RSP = "Yes"
         else:
             required_RSP = "No"
+
+            ##########---------- RRSP Starts ----------##########
+            call_RRSP_param1 = extract_var(string, "RRSP")
+            call_RRSP_param2 = extract_var(string, "RRSPs")
+            call_RRSP_param3 = extract_var(string, ",RRSP")
+            call_RRSP_param4 = extract_var(string, ",RRSPs")
+            call_RRSP_param5 = extract_var(string, "(RRSP)")
+            call_RRSP_param6 = extract_var(string, "registered retirement saving plans")
+            call_RRSP_param7 = extract_var(string, "registered retirement savings plan")
+
+            if call_RRSP_param1 == "Yes":
+                required_RRSP = "Yes"
+            elif call_RRSP_param2 == "Yes":
+                required_RRSP = "Yes"
+            elif call_RRSP_param3 == "Yes":
+                required_RRSP = "Yes"
+            elif call_RRSP_param4 == "Yes":
+                required_RRSP = "Yes"
+            elif call_RRSP_param5 == "Yes":
+                required_RRSP = "Yes"
+            elif call_RRSP_param6 == "Yes":
+                required_RRSP = "Yes"
+            elif call_RRSP_param7 == "Yes":
+                required_RRSP = "Yes"
+            else:
+                required_RRSP = "No"
+
+        ##########---------- TFSA Starts ----------##########
+        call_TFSA_param1 = extract_var(string, " TFSA")
+        call_TFSA_param2 = extract_var(string, " (TFSA)")
+        call_TFSA_param3 = extract_var(string, "TFSAs")
+        call_TFSA_param4 = extract_var(string, "tax-free savings account")
+        call_TFSA_param5 = extract_var(string, "tax-free savings accounts")
+
+        if call_TFSA_param1 == "Yes":
+            required_TFSA = "Yes"
+        elif call_TFSA_param2 == "Yes":
+            required_TFSA = "Yes"
+        elif call_TFSA_param3 == "Yes":
+            required_TFSA = "Yes"
+        elif call_TFSA_param4 == "Yes":
+            required_TFSA = "Yes"
+        elif call_TFSA_param5 == "Yes":
+            required_TFSA = "Yes"
+        else:
+            required_TFSA = "No"
+
+        ##########---------- RESP Starts ----------##########
+        call_RESP_param1 = extract_var(string, "RESP")
+        call_RESP_param2 = extract_var(string, " (RESP)")
+        call_RESP_param3 = extract_var(string, "registered education savings plan")
+        call_RESP_param4 = extract_var(string, "registered education saving plan")
+        call_RESP_param5 = extract_var(string, "registered education savings plans")
+
+        if call_RESP_param1 == "Yes":
+            required_RESP = "Yes"
+        elif call_RESP_param2 == "Yes":
+            required_RESP = "Yes"
+        elif call_RESP_param3 == "Yes":
+            required_RESP = "Yes"
+        elif call_RESP_param4 == "Yes":
+            required_RESP = "Yes"
+        elif call_RESP_param5 == "Yes":
+            required_RESP = "Yes"
+        else:
+            required_RESP = "No"
 
         ##########---------- Liability Applications Starts ----------##########
         call_liabilityApps_param1 = extract_var(string, "liability applications")
@@ -712,6 +813,8 @@ class Parse:
         call_accountStatements_param2 = extract_var(string, "statement of account")
         call_accountStatements_param3 = extract_var(string, "account statement")
         call_accountStatements_param4 = extract_var(string, "bank statements")
+        call_accountStatements_param5 = extract_var(string, "monthly bank statements")
+        call_accountStatements_param6 = extract_var(string, "bank monthly statements")
 
         if call_accountStatements_param1 == "Yes":
             required_accountStatements = "Yes"
@@ -720,6 +823,10 @@ class Parse:
         elif call_accountStatements_param3 == "Yes":
             required_accountStatements = "Yes"
         elif call_accountStatements_param4 == "Yes":
+            required_accountStatements = "Yes"
+        elif call_accountStatements_param5 == "Yes":
+            required_accountStatements = "Yes"
+        elif call_accountStatements_param6 == "Yes":
             required_accountStatements = "Yes"
         else:
             required_accountStatements = "No"
@@ -743,6 +850,20 @@ class Parse:
             required_CCApplications = "Yes"
         else:
             required_CCApplications = "No"
+
+        ##########---------- CreditCard Statements Starts ----------##########
+        call_CCStatements_param1 = extract_var(string, "credit card statement")
+        call_CCStatements_param2 = extract_var(string, "credit card statements")
+        call_CCStatements_param3 = extract_var(string, "credit card monthly statements")
+
+        if call_CCStatements_param1 == "Yes":
+            required_CCStatements = "Yes"
+        elif call_CCStatements_param2 == "Yes":
+            required_CCStatements = "Yes"
+        elif call_CCStatements_param3 == "Yes":
+            required_CCStatements = "Yes"
+        else:
+            required_CCStatements = "No"
 
         ##########---------- Bank Drafts Starts ----------##########
         call_bankDrafts_param1 = extract_var(string, "bank draft")
@@ -802,7 +923,7 @@ class Parse:
             SIN = SIN.replace(")", "")
             SINfind = extract_sin(SIN)
             SIN = SINfind
-            print(SINfind)
+
 
         if call_SIN_param2 == "Yes":
             SIN = retriveAll(string, "SIN:", 18)
@@ -814,7 +935,7 @@ class Parse:
             SIN = SIN.replace(")", "")
             SINfind = extract_sin(SIN)
             SIN = SINfind
-            print(SINfind)
+
         if call_SIN_param3 == "Yes":
             SIN = retriveAll(string, "insurance number", 29)
             SIN = SIN.replace("o", "0")
@@ -825,7 +946,7 @@ class Parse:
             SIN = SIN.replace(")", "")
             SINfind = extract_sin(SIN)
             SIN = SINfind
-            print(SIN)
+
         if call_SIN_param4 == "Yes":
             SIN = retriveAll(string, "SIN#", 18)
             SIN = SIN.replace("o", "0")
@@ -836,7 +957,7 @@ class Parse:
             SIN = SIN.replace(")", "")
             SINfind = extract_sin(SIN)
             SIN = SINfind
-            print(SINfind)
+
         if call_SIN_param5 == "Yes":
             SIN = retriveAll(string, r"S.I.N.", 20)
             SIN = SIN.replace("o", "0")
@@ -847,7 +968,7 @@ class Parse:
             SIN = SIN.replace(")", "")
             SINfind = extract_sin(SIN)
             SIN = SINfind
-            print(SINfind)
+
         if call_SIN_param6 == "Yes":
             SIN = retriveAll(string, "insurance number:", 20)
             SIN = SIN.replace("o", "0")
@@ -858,7 +979,81 @@ class Parse:
             SIN = SIN.replace(")", "")
             SINfind = extract_sin(SIN)
             SIN = SINfind
-            print(SINfind)
+
+
+        ##########---------- All Cheques & Amounts Starts ----------##########
+        call_allCheuqes_param1 = extract_var(string, "all cheques")
+        call_allCheques_param2 = extract_var(string, "both sides of cheques")
+        moneyCheck = '$'
+
+
+        if call_allCheuqes_param1 == "Yes":
+            required_chequeSides = "Yes"
+            string_hold = charAfter(string, "all cheques", 60)
+            amt_chequeSides = charAfter(string, "all cheques", 60)
+            if containsDigits(amt_chequeSides):
+                amt_chequeSides_list = amt_chequeSides.split(" ")
+                #print(amt_chequeSides_list)
+                amt_chequeSides_list_final = [x for x in amt_chequeSides_list if x in amountTerms]
+                amt_chequeSides = ' '.join(amt_chequeSides_list_final)
+
+                r1 = re.compile('(?=\$)(.*\n?)(?<=)((;))')
+
+
+                dollarValue1 = r1.findall(string_hold)
+
+                print("HEEEREEEEEEEEEEEEEEEEEEEE")
+                print(dollarValue1)
+
+                try:
+                    dollarValue1 = ''.join(dollarValue1[0])
+                    amt_chequeSides = amt_chequeSides + dollarValue1
+                except IndexError:
+                    print("error")
+
+
+
+            else:
+                amt_chequeSides = "All"
+
+
+
+
+        elif call_allCheques_param2 == "Yes":
+            required_chequeSides = "Yes"
+            string_hold = charAfter(string, "all cheques", 60)
+            amt_chequeSides = charAfter(string, "both sides of cheques", 60)
+            if containsDigits(amt_chequeSides):
+                amt_chequeSides_list = amt_chequeSides.split(" ")
+                #print(amt_chequeSides_list)
+                amt_chequeSides_list_final = [x for x in amt_chequeSides_list if x in amountTerms]
+                amt_chequeSides = ' '.join(amt_chequeSides_list_final)
+
+                r1 = re.compile('(?=\$)(.*\n?)(?<=)((;))')
+
+                dollarValue1 = r1.findall(string_hold)
+
+
+                print("HEEEREEEEEEEEEEEEEEEEEEEE")
+                print(dollarValue1)
+
+
+                try:
+                    dollarValue1 = ''.join(dollarValue1[0])
+                    amt_chequeSides = amt_chequeSides + dollarValue1
+                except IndexError:
+                    print("error")
+
+            else:
+                amt_chequeSides = "All"
+
+
+
+        else:
+            required_chequeSides = "No"
+
+
+
 
 
         # Converting the necessary values to strings
@@ -874,8 +1069,6 @@ class Parse:
         option_clientprofile = str(option_clientprofile)
 
 
-        required_openclose = str(call_openCloseAcc)
-        required_chequeSides = str(call_chequeSides)
         required_chequesCancelled = str(call_chequesCancelled)
         required_certCheques = str(call_certCheques)
         required_deposits = str(call_depositReq)
@@ -884,16 +1077,10 @@ class Parse:
         required_transfersOut = str(call_transfersOut)
         required_wiresIn = str(call_wiresIn)
         required_wiresOut = str(call_wiresOut)
-        required_CCStatements = str(call_CCStatements)
         required_CCApprovals = str(call_CCApprovals)
-        required_guaranteedInvestments = str(call_guaranteedInvestments)
         required_investmentAccounts = str(call_investmentAccounts)
-        required_RRSP = str(call_RRSP)
-        required_RESP = str(call_RESP)
-        required_TFSA = str(call_TFSA)
         required_knowCustomer = str(call_knowCustomer)
 
-        amt_chequeSides = str(call_chequeSidesAMT)
         amt_chequesCancelled = str(call_chequesCancelledAMT)
         amt_bankDraft = str(call_bankDraftAMT)
         amt_deposits = str(call_depositAMT)
@@ -911,7 +1098,7 @@ class Parse:
         if call_AddressedTo_param2 == "Yes":
             alberta_number_deposits = extract_search(string, "last", "deposits", "into")
             if alberta_number_deposits is not None:
-                alberta_num_flag = hasNumbers(str(alberta_number_deposits))
+                alberta_num_flag = containsDigits(str(alberta_number_deposits))
                 if alberta_num_flag == True:
                     #alberta_number_deposits = re.sub("\D", "", str(alberta_number_deposits))
                     alberta_x_deposits = str(alberta_number_deposits)
@@ -1005,6 +1192,8 @@ class Parse:
         AddressedTo = head
         head, sep, tail = AddressedTo.partition('Social')
         AddressedTo = head
+        head, sep, tail = AddressedTo.partition('Other')
+        AddressedTo = head
         hold = AddressedTo
         AddressedTo_cutParam1 = extract_var_pass(hold, "information on")
         if AddressedTo_cutParam1 == "Yes":
@@ -1028,7 +1217,7 @@ class Parse:
                     required_wiresIn,amt_wiresIn, required_wiresOut, amt_wiresOut, required_liabilityApplications,
                     required_liabilityStatements,required_mortgageApplications,required_mortgageStatements,
                     required_loanApplications, required_loanStatements, required_CCApplications, required_CCStatements, required_CCApprovals,
-                    required_termDeposits, required_investments, required_guaranteedInvestments, required_mutualFunds,
+                    required_termDeposits, required_investments, required_mutualFunds,
                     required_investmentAccounts, required_sigCards, required_safetyDeposit, required_GIC, required_RRIF, required_RRSP, required_RSP, required_RESP,required_TFSA,amount_alberta_deposits
                     ]
         #Create an instance of Collector in the Main.py

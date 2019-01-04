@@ -130,7 +130,7 @@ class Sort:
                    "Wires into Acc","//AMT PLACE HOLDER", "Wires out of Acc", "//AMT PLACE HOLDER",
                    "Liability Applications", "Liability Statements", "Mortgage Applications", "Mortgage Statements",
                    "Loan Applications", "Loan Statements", "Credit Card Applications","Credit Card Statements", "Credit Card Approvals",
-                   "Term Deposits", "investments", "Guaranteed Investments", "Mutual Funds", "investment Acounts",
+                   "Term Deposits", "investments", "Mutual Funds", "investment Acounts",
                    "Signature Cards", "Safety Deposit", "GIC","RRIF", "RRSP", "RSP",
                    "RESP", "TFSA",
                     ]
