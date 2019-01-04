@@ -22,14 +22,11 @@ from Builder import *
 
 #Tkinter Graphical assets
 from tkinter import Tk, Label, Button, filedialog, messagebox
-from tkinter.ttk import Progressbar
 from tkinter import *
 
 #Imports for the local classes, methods and functions within this file
 from PIL import ImageTk, Image
 import csv
-import threading
-import time
 
 #Class responsible for building the graphical user interface for INPROD
 class INPRODGUI:
@@ -96,30 +93,12 @@ class INPRODGUI:
         self.execute_button = Button(master, text="Execute", command=self.execute)
         self.execute_button.place(x=215,y=410)
 
-
-        self.progress = Progressbar(master, orient=HORIZONTAL, length=350, mode='indeterminate')
-        self.progress.place(x=85, y=460)
-
         self.close_button = Button(master, text="Exit", command=master.quit)
         self.close_button.place(x=230,y=500)
 
     def func(self, value):
         print(value)
 
-    #Progress bar functionality
-    def progress(self):
-        def real_progress():
-            self.progress.grid(row=1, column=0)
-            self.progress.start()
-            time.sleep(5)
-            self.progress.stop()
-            self.progress.grid_forget()
-
-            self.btn['state'] = 'normal'
-
-        self.btn['state'] = 'disabled'
-        threading.Thread(target=real_progress).start()
-    #selecting the Scan directory functionality
     def scanDir(self):
         scanDir_selected = filedialog.askdirectory()
         self._global_scanDir_(scanDir_selected)

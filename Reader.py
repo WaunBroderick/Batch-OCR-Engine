@@ -20,61 +20,69 @@ import datetime
 
 class Parse:
 
+    #Assigning global stop variable to the set of english stop words, eng is current use for dev line
     global stop
     stop = stopwords.words('english')
 
+    #The method designed specifically for CRA & Alberta processing of documents
     def _CRA_main_(self, passedFile, passedLoc):
 
-        stop = stopwords.words('english')
+        #Assigning imported variables
         filename = passedFile
         fileloc = passedLoc
 
+        #Dictionary for number names to ints and back
         dict_numbers = {'One' : 1, 'Two' : 2, 'Three' : 3, 'Four' : 4, 'Five' : 5, 'Six' : 6, 'Seven' : 7, 'Eight' : 8,
                         'Nine' : 9, 'Ten' :  10, 'Eleven' : 11, 'Twelve' : 12, 'Thirteen' : 13,
                         'Fourteen' : 14, 'Fifteen' : 15, 'Sixteen' : 16, 'Seventeen' : 17, 'Eighteen' : 18,
                         'Nineteen': 19, 'Twenty' : 20, 'Twenty-One' : 21, 'Twenty-Two' : 22, 'Twenty-Three' : 23,
                         'Twenty-Four' : 24,'Twenty-Five' : 25 }
 
+        #Dictionary for mapping months to values
         month_numbers = {'January': 1, 'February':2 , 'March':3, 'April':4, 'May':5, 'June':6, 'July':7, 'August':8,
                          'September':9, 'October':10, 'November':11, 'December':12}
 
+        #Populate the list years with individual years between set numbers
         year = 1900
         years = []
         while year < 2100:
             years.append(year)
             year += 1
 
+        #List of months and their abbreviations
         months = []
         months = ['January', 'Jan', 'February' , 'Feb', 'March', 'Mar', 'April', 'Apr', 'May', 'June', 'Jun', 'July', 'Jul',
                   'August', 'Aug', 'September', 'Sept', 'October', 'Oct', 'November', 'Nov', 'December', 'Dec']
 
+        #List of Days populated of each day from 1 to the possible 31
         day = 0
         days = []
         while day < 31:
             days.append(day)
             day += 1
 
-        dateList = []
+        #converting integers within list to string to match the text information
         days = list(map(str, days))
         years = list(map(str, years))
 
+        #A combination of all the days months and year into the list dateList to be used for general purposes
+        dateList = []
         dateList.extend(days)
         dateList.extend(months)
         dateList.extend(years)
 
 
-
-        # Remove not registering formatting characters
-        #print("file location: " + fileloc)
-        #print("file name: " + filename)
+        #To open each passed document and assign it to a string that can be manipulated
         with open(fileloc + filename, 'r+') as myfile:
             raw = myfile.read().replace(r'\n', '')
             wr = open(fileloc + filename, 'w')
             wr.write(raw)
 
+            #string contains text document informaiton
             string = raw
-            #print(string)
 
+
+        #Used if one desires to tokenize information from the document using nltk
         def ie_preprocess(document):
             document = ' '.join([i for i in document.split() if i not in stop])
             sentences = nltk.sent_tokenize(document)
@@ -82,15 +90,12 @@ class Parse:
             sentences = [nltk.pos_tag(sent) for sent in sentences]
             return sentences
 
+        #OLD - A specific function used to extract specific addressed to information from doc
         def extract_addressedto(document):
-            addressedto = []
-            # r = re.compile('Re:(.{10})')
             a = re.compile('(?<=Re:)(.*\n?)(?= To )')
             b = re.compile('(?<=Re:)(.*\n?)(?= For )')
             A = str(a.findall(string))
             B = str(b.findall(string))
-            # print("a: " + A + "len: " + str(len(A)))
-            # print("b: " + B + "len: " + str(len(B)))
             if (len(A) == 2):
                 return b.findall(string)
             elif (len(B) == 2):
@@ -102,28 +107,33 @@ class Parse:
             else:
                 return ("NOT FOUND")
 
+        #OLD - A specific function used to extract specific call for to information from doc
         def extract_callfor(document):
             callfor = []
             r = re.compile('(?<= information for)(.*\n?)(?= Within )')
             return r.findall(string)
 
+        #A regex sequence used to extract a SIN number on its specific digit content
+        # TO-DO : Cand look for a following or starting char to ensure phone nums, etc. arent picked up
         def extract_sin(string):
             String = string
             r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{3}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{3})')
             sin_numbers = r.findall(String)
             return [re.sub(r'\D', '', number) for number in sin_numbers]
 
+        #OLD - A specific regex used to extract the date of birth when present in the dd-mm-yyyy or mm-dd-yyyy format
         def extract_dob(document):
             top = string[100:1500]
             r = re.compile(r'(\d{4}[-\.\s]??\d{2}[-\.\s]??\d{2}|\(\d{2}\)\s*\d{2}[-\.\s]??\d{4})')
             dob_numbers = r.findall(top)
             return [re.sub(r'\D', '', number) for number in dob_numbers]
 
+        #OLD - A specific regex used to extract the acts being enforced
         def extract_acts(document):
-            acts = []
             r = re.compile('(?<= enforce )(.*\n?)(?= we require )')
             return r.findall(string)
 
+        #OLD - A specific regex used to extract the tax center
         def extract_taxcenter(document):
             top = string[0:200]
             r = re.compile(
@@ -131,25 +141,25 @@ class Parse:
             return r.findall(top)
             return r.findall(string).group(1)
 
+        #OLD - A specific regex used to extract the date it was being sent
         def extract_datesent(document):
-            datesent = []
             top = string[0:200]
             r = re.compile(
                 '(?:^|(?<= ))(January|February|March|April|May|June|July|August|September|October|November|December)(.*\n?)(?:^|(?<= ))(2017|2018)')
             return r.findall(top)
 
+        #OLD - A specific regex used to extract what is being requested
         def extract_requested(document):
-            requested = []
             r = re.compile(
                 '(?:^|(?<= ))(documents|documents:|names|person(s)|information/documents)(.*\n?)(?:^|(?<= ))(You|if you)')
             return r.findall(string)
 
-
+        #OLD - A specific regex used to extract the date documents are requested between
         def extract_between(document):
             r = re.compile('(?<=period from)(.*\n?)(?=for all)')
             return r.findall(string)
 
-
+        #OLD - A specific regex used to extract the title of the letter
         def extract_letterTitle(document):
             top = string[0:250]
             r = re.compile(
@@ -157,6 +167,7 @@ class Parse:
             return r.findall(top)
             return r.findall(string)
 
+        #OLD - A specific search function to determine if it is from the canadian revenue agency
         def extract_reqBody(document):
             top = string[0:250]
             op1 = "Canada Revenue"
@@ -166,16 +177,25 @@ class Parse:
                 out = "Canada Revenue Agency"
             return(out)
 
+        ################################################################################
+        # Many of the previous methods are old and of varying degree of effectiveness  #
+        #    The ones that follow are more generally encompassing and have been        #
+        #               worked on following those stated previous.                     #
+        ################################################################################
 
-        def extract_var_pass(document, docType):
-            lctx = docType
+
+        #A method that accepts the string and searches for a word returning its presen with a Yes or No
+        #THIS METHOD ALLOWS YOU TO PASS A STRING TO IT
+        def extract_var_pass(document, find):
+            lctx = find
             out = "No"
             r = re.search(lctx, document, re.IGNORECASE)
             if r is not None:
                 out = "Yes"
             return(out)
 
-
+        #A method that takes the document text and searches for a word returning its presen with a Yes or No
+        #THIS METHOD WILL TAKE THE BASIC TEXT FROM THE WHOLE DOCUMENT
         def extract_var(document, find):
             lctx = find
             out = "No"
@@ -184,6 +204,7 @@ class Parse:
                 out = "Yes"
             return(out)
 
+        #A method that takes the document text, and a word, searches for the word within a character limit you can set on call
         def extract_var_restricted(document, find, start, stop):
             lctx = find
             out = "No"
@@ -195,14 +216,15 @@ class Parse:
                 out = "Yes"
             return (out)
 
+        #Takes the document text and extracts the text between a starting word and stopping at any of 2 stop words
         def extract_search(document, start, end1, end2):
             r = re.compile(
                 r"(?:^|(?<= ))(" + start + r")(.*\n?)(?:^|(?<= ))(" + end1 + r"|" + end2 + r")")
             return r.findall(string)
 
+        #Search the document text for the first instance of a word then return the string with a threshold before and after
         def charThreshold(document, word, threshold, search):
             index = document.find(word)
-            thres = threshold
             lowerLim = (index - threshold)
             upperLim = (index + threshold)
             cutString = document[lowerLim:upperLim]
@@ -221,6 +243,7 @@ class Parse:
             else:
                 return(cutString)
 
+        #Search the document text for the index of the first instance of a word then return the string with a threshold after
         def charAfter(document, word, threshold):
             index = document.find(word)
             thres = threshold
@@ -228,10 +251,12 @@ class Parse:
             cutString = document[index:upperLim]
             return (cutString)
 
-        def segmentFile(document, _top, _bottom):
-            string = document[_top : _bottom]
+        #Allows you to pass a string to the file and set a top and bottom to segment the file with character indexing
+        def segmentFile(document, top, bottom):
+            string = document[top : bottom]
             return (str(string))
 
+        #Allows you to pass a string and a created dictionary - UNFINISHED
         def dictFind(document, dictionary, find, option):
             string = document
             if find in dictionary:
@@ -239,14 +264,17 @@ class Parse:
             else:
                 return("null")
 
+        #returns if the string passed has any characters in it
         def hasNumbers(document):
             return any(char.isdigit() for char in document)
 
+        #Pass a string and a word and return how many instances of the word the string contains
         def quantityFind(document, find):
             string = document
             r = re.findall(find, string, re.IGNORECASE)
             return (len(r))
 
+        #Pass a string and a words, retrive all instances of the word with a set amount of characters following it
         def retriveAll(document, find, _following):
             string = document
             following = str(_following)
@@ -257,8 +285,8 @@ class Parse:
 
 
 
-
-        #Variables
+        # OLD - Should re-do this for a more neat better system
+        #Variables declared so there is no errors if a flag is not tripped and a variable not set prior to csv print out
         AddressedTo = ""
         SIN = ""
 
@@ -266,7 +294,7 @@ class Parse:
         required_chequeSides = ""
         required_chequeSides_Amt = ""
         required_chequesCancelled = ""
-        required_bankDraft = ""
+        required_bankDrafts = ""
         required_certCheques = ""
         required_deposits = ""
         required_withdrawls = ""
@@ -346,7 +374,6 @@ class Parse:
         call_certCheques = extract_var(string, "certified cheques")
         call_depositReq = extract_var(string, "all deposits")
         call_withdrawlsReq = extract_var(string, "all withdrawls")
-        call_creditMemo = extract_var(string, "credit memoe")
         call_accounts = extract_var(string, "all accounts")
         call_transfersIn = extract_var(string, "transfers in")
         call_transfersOut = extract_var(string, "transfers out")
@@ -374,17 +401,19 @@ class Parse:
         call_wiresInAMT = charThreshold(string, "wires in", 50, "num")
         call_wiresOutAMT =  charThreshold(string, "wires out", 50, "num")
 
+        #Determine if Client Profile needed
         option_clientprofile = extract_var(string, "client profile")
         if option_clientprofile == "Yes":
             required_deposits = "Yes"
 
 
-        #Complex catch statements
+        #↓↓↓↓↓↓↓↓To determine if the file is from Alberta and process its few certain differences↓↓↓↓↓↓↓↓#
+        #Not a good system as Alberta can show up anywhere so find a better rule
         call_AddressedTo_param2 = extract_var_restricted(string, "Alberta",0,1500)
         call_AddressedTo_param3 = extract_var_restricted(string, "Debtor's name",0,1500)
         call_AddressedTo_param4 = extract_var_restricted(string, "Subject",0,1500)
 
-
+        #If alberta identifer is caught do the following
         if call_AddressedTo_param2 == "Yes":
             AddressedTo = extract_search(string, "Name:", "Corporate", "Corporate Account")
             AddressedTo = str(AddressedTo)
@@ -402,8 +431,10 @@ class Parse:
             AddressedTo = str(extract_addressedto(string))
             required_corporateNum = "null"
 
+        #↑↑↑↑↑↑↑↑To determine if the file is from Alberta and process its few certain differences↑↑↑↑↑↑↑↑#
 
-
+        ##########---------- Date of Birth Starts ----------##########
+        #Variables to search for
         call_DOB_param1 = extract_var(string, "DOB")
         call_DOB_param2 = extract_var(string, "date of birth")
         call_DOB_param3 = extract_var(string, "Birth Date of")
@@ -420,7 +451,7 @@ class Parse:
         if call_DOB_param5 == "Yes":
             required_DOB = retriveAll(string, "Birth:", 26)
 
-
+        #cleaning extra characters and text from string
         required_DOB = ''.join(required_DOB)
         required_DOB = required_DOB.replace(",", "")
         required_DOB = required_DOB.replace("-", "")
@@ -430,34 +461,29 @@ class Parse:
         required_DOB = required_DOB.replace(";", "")
         DOB_split = required_DOB.split(" ")
 
+        #If the string contains any words not in the dateList arrau (days,months,years) remove them
         DOB_clean = [x for x in DOB_split if x in dateList]
 
-        print("Before: ")
-        print(DOB_split)
-        print("After: ")
-        print(DOB_clean)
-        print("Days List: ")
-        print(days)
+        #join all the information in the array together with spaces
         DOB_clean_string = ' '.join(DOB_clean)
 
+        #DOB final is equal to the joined array
         required_DOB = DOB_clean_string
 
 
 
-        call_DOB_param1 = extract_var(string, "period")
-        call_DOB_param2 = extract_var(string, "last 12 months")
-        call_DOB_param3 = extract_var(string, "for the last")
-        if call_DOB_param1 == "Yes":
+        ##########---------- Days Between Starts ----------##########
+        call_daysBetween_param1 = extract_var(string, "period")
+        call_daysBetween_param2 = extract_var(string, "last 12 months")
+        call_daysBetween_param3 = extract_var(string, "for the last")
+        if call_daysBetween_param1 == "Yes":
             required_daysBetween = extract_search(string, "period", ":", "  ")
-        elif call_DOB_param2 == "Yes":
+        elif call_daysBetween_param2 == "Yes":
             required_daysBetween = "last 12 months"
-        elif call_DOB_param3 == "Yes":
+        elif call_daysBetween_param3 == "Yes":
             required_daysBetween = extract_search(string, "for the last", "months", "  ")
 
-
-
-        ###############################GICS STARTS#############################################
-        # Complex catch statements
+        ##########---------- GICs Starts ----------##########
         call_GIC_param1 = extract_var(string, "GIC")
         call_GIC_param2 = extract_var(string, "GICs")
         call_GIC_param3 = extract_var(string, "Guaranteed investment Certificates")
@@ -471,8 +497,7 @@ class Parse:
         else:
             required_GIC = "No"
 
-        ###############################SAFETYDEPOSIT STARTS#############################################
-        # Complex catch statements
+        ##########---------- Safety Deposit Starts ----------##########
         call_safetyDeposit_param1 = extract_var(string, "safety deposit")
 
         if call_safetyDeposit_param1 == "Yes":
@@ -480,8 +505,7 @@ class Parse:
         else:
             required_safetyDeposit = "No"
 
-        ###############################Signature Cards STARTS#############################################
-        # Complex catch statements
+        ##########---------- Signature Cards Starts ----------##########
         call_sigCards_param1 = extract_var(string, "signature authority cards")
         call_sigCards_param2 = extract_var(string, "signature cards")
 
@@ -492,8 +516,7 @@ class Parse:
         else:
             required_sigCards = "No"
 
-        ###############################RRIF STARTS#############################################
-        # Complex catch statements
+        ##########---------- RRIF Starts ----------##########
         call_RRIF_param1 = extract_var(string, "RRIF")
         call_RRIF_param2 = extract_var(string, "RRIFs")
         call_RRIF_param3 = extract_var(string, "(RRIF)")
@@ -510,8 +533,7 @@ class Parse:
         else:
             required_RRIF = "No"
 
-        ###############################RSP STARTS#############################################
-        # Complex catch statements
+        ##########---------- RRSP Starts ----------##########
         call_RSP_param1 = extract_var(string, " RSP")
         call_RSP_param2 = extract_var(string, " RSPs")
         call_RSP_param3 = extract_var(string, ",RSP")
@@ -537,20 +559,18 @@ class Parse:
         else:
             required_RSP = "No"
 
-        ###############################LIABILITY APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Liability Applications Starts ----------##########
         call_liabilityApps_param1 = extract_var(string, "liability applications")
         call_liabilityApps_param2 = extract_var(string, "liability application")
 
-        if call_RSP_param1 == "Yes":
+        if call_liabilityApps_param1 == "Yes":
             required_liabilityApplications = "Yes"
-        elif call_RSP_param2 == "Yes":
+        elif call_liabilityApps_param2 == "Yes":
             required_liabilityApplications = "Yes"
         else:
             required_liabilityApplications = "No"
 
-        ###############################LIABILITY STATEMENSTS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Liability Statement Starts ----------##########
         call_liabilityState_param1 = extract_var(string, "liability statements")
         call_liabilityState_param2 = extract_var(string, "liability statement")
         call_liabilityState_param3 = extract_var(string, "liabilities")
@@ -565,8 +585,7 @@ class Parse:
         else:
             required_liabilityStatements = "No"
 
-        ###############################Investments STARTS#############################################
-        # Complex catch statements
+        ##########---------- Investments Starts ----------##########
         call_investments_param1 = extract_var(string, "investments")
         call_investments_param2 = extract_var(string, "investment accounts")
         call_investments_param3 = extract_var(string, "investments statements")
@@ -586,8 +605,7 @@ class Parse:
         else:
             required_investments = "No"
 
-        ###############################Term Deposits APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Term Deposits Starts ----------##########
         call_termDeposits_param1 = extract_var(string, "term deposit")
         call_termDeposits_param2 = extract_var(string, "term deposits")
 
@@ -598,8 +616,7 @@ class Parse:
         else:
             required_termDeposits = "No"
 
-        ###############################Mutual Funds APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Mutual Funds Starts ----------##########
         call_mutualFunds_param1 = extract_var(string, "mutual fund")
         call_mutualFunds_param2 = extract_var(string, "mutual funds")
 
@@ -610,8 +627,7 @@ class Parse:
         else:
             required_mutualFunds = "No"
 
-        ###############################Loan Statements APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Loan Statements Starts ----------##########
         call_loanStatement_param1 = extract_var(string, "loan statement")
         call_loanStatement_param2 = extract_var(string, "loan statements")
 
@@ -622,43 +638,64 @@ class Parse:
         else:
             required_loanStatements = "No"
 
-        ###############################Mortgage Statements APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Mortgage Statements Starts ----------##########
         call_mortgageStatement_param1 = extract_var(string, "mortgage statement")
         call_mortgageStatement_param2 = extract_var(string, "mortgage statements")
+        call_mortgageStatement_param3 = extract_var(string, "mortgage")
+        call_mortgageStatement_param4 = extract_var(string, "mortgages")
 
         if call_mortgageStatement_param1 == "Yes":
             required_mortgageStatements = "Yes"
         elif call_mortgageStatement_param2 == "Yes":
             required_mortgageStatements = "Yes"
+        elif call_mortgageStatement_param3 == "Yes":
+            required_mortgageStatements = "Yes"
+        elif call_mortgageStatement_param4 == "Yes":
+            required_mortgageStatements = "Yes"
         else:
             required_mortgageStatements = "No"
 
-        ###############################Loan Statements APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Loan Applications Starts ----------##########
         call_loanApplications_param1 = extract_var(string, "loan application")
         call_loanApplications_param2 = extract_var(string, "loan applications")
+        call_loanApplications_param3 = extract_var(string, "loan, mortgage and credit applications")
+        call_loanApplications_param4 = extract_var(string, "loan, mortgage or credit applications")
+        call_loanApplications_param5 = extract_var(string, "loan, mortgage applications")
 
         if call_loanApplications_param1 == "Yes":
             required_loanApplications = "Yes"
         elif call_loanApplications_param2 == "Yes":
             required_loanApplications = "Yes"
+        elif call_loanApplications_param3 == "Yes":
+            required_loanApplications = "Yes"
+        elif call_loanApplications_param4 == "Yes":
+            required_loanApplications = "Yes"
+        elif call_loanApplications_param5 == "Yes":
+            required_loanApplications = "Yes"
         else:
             required_loanApplications = "No"
 
-        ###############################Mortgage Statements APPLICATIONS STARTS#############################################
-        # Complex catch statements
+        ##########---------- Mortgage Applications Starts ----------##########
         call_mortgageApplications_param1 = extract_var(string, "mortgage application")
         call_mortgageApplications_param2 = extract_var(string, "mortgage applications")
+        call_mortgageApplications_param3 = extract_var(string, "loan, mortgage and credit applications")
+        call_mortgageApplications_param4 = extract_var(string, "loan, mortgage or credit applications")
+        call_mortgageApplications_param5 = extract_var(string, "loan, mortgage applications")
 
         if call_mortgageApplications_param1 == "Yes":
             required_mortgageApplications = "Yes"
         elif call_mortgageApplications_param2 == "Yes":
             required_mortgageApplications = "Yes"
+        elif call_mortgageApplications_param3 == "Yes":
+            required_mortgageApplications = "Yes"
+        elif call_mortgageApplications_param4 == "Yes":
+            required_mortgageApplications = "Yes"
+        elif call_mortgageApplications_param5 == "Yes":
+            required_mortgageApplications = "Yes"
         else:
             required_mortgageApplications = "No"
 
-        ###############################Debit Memo APPLICATIONS STARTS#############################################
+        ##########---------- Debit Memos Starts ----------##########
         # Complex catch statements
         call_debitMemo_param1 = extract_var(string, "debit memo")
         call_debitMemo_param2 = extract_var(string, "debit memos")
@@ -670,8 +707,7 @@ class Parse:
         else:
             required_debitMemo = "No"
 
-        ###############################Account Statements STARTS#############################################
-        # Complex catch statements
+        ##########---------- Statement of accounts Starts ----------##########
         call_accountStatements_param1 = extract_var(string, "statements of account")
         call_accountStatements_param2 = extract_var(string, "statement of account")
         call_accountStatements_param3 = extract_var(string, "account statement")
@@ -688,33 +724,38 @@ class Parse:
         else:
             required_accountStatements = "No"
 
-        ###############################Credit Application STARTS#############################################
-        # Complex catch statements
-        call_CCApplications_param1 = extract_var(string, "credit applications")
+        ##########---------- Credit Applications Starts ----------##########
+        call_CCApplications_param1 = extract_var(string, "credit application")
         call_CCApplications_param2 = extract_var(string, "credit applications")
+        call_CCApplications_param3 = extract_var(string, "loan, mortgage and credit applications")
+        call_CCApplications_param4 = extract_var(string, "loan, mortgage or credit applications")
+        call_CCApplications_param5 = extract_var(string, "loan, mortgage applications")
 
         if call_CCApplications_param1 == "Yes":
             required_CCApplications = "Yes"
         elif call_CCApplications_param2 == "Yes":
             required_CCApplications = "Yes"
+        elif call_CCApplications_param3 == "Yes":
+            required_CCApplications = "Yes"
+        elif call_CCApplications_param4 == "Yes":
+            required_CCApplications = "Yes"
+        elif call_CCApplications_param5 == "Yes":
+            required_CCApplications = "Yes"
         else:
             required_CCApplications = "No"
 
-        ###############################Credit Application STARTS#############################################
-        # Complex catch statements
+        ##########---------- Bank Drafts Starts ----------##########
         call_bankDrafts_param1 = extract_var(string, "bank draft")
         call_bankDrafts_param2 = extract_var(string, "bank drafts")
 
-        if call_CCApplications_param1 == "Yes":
-            required_CCApplications = "Yes"
-        elif call_CCApplications_param2 == "Yes":
-            required_CCApplications = "Yes"
+        if call_bankDrafts_param1 == "Yes":
+            required_bankDrafts = "Yes"
+        elif call_bankDrafts_param2 == "Yes":
+            required_bankDrafts = "Yes"
         else:
-            required_CCApplications = "No"
+            required_bankDrafts = "No"
 
-
-        ###############################Deposit Slips STARTS#############################################
-        # Complex catch statements
+        ##########---------- Deposit Slips Starts ----------##########
         call_depositSlips_param1 = extract_var(string, "deposit slip")
 
         if call_depositSlips_param1 == "Yes":
@@ -722,9 +763,7 @@ class Parse:
         else:
             required_depositSlips = "No"
 
-
-        ###############################Withdrawl Slips STARTS#############################################
-        # Complex catch statements
+        ##########---------- Withdrawl Slips Starts ----------##########
         call_withdrawlSlips_param1 = extract_var(string, "withdrawl slip")
 
         if call_withdrawlSlips_param1 == "Yes":
@@ -732,19 +771,19 @@ class Parse:
         else:
             required_withdrawlSlips = "No"
 
+        ##########---------- Term Deposits Starts ----------##########
+        call_creditMemo_param1 = extract_var(string, "credit memo")
+        call_creditMemo_param2 = extract_var(string, "credit memos")
+
+        if call_creditMemo_param1 == "Yes":
+            required_creditMemo = "Yes"
+        elif call_creditMemo_param2 == "Yes":
+            required_creditMemo = "Yes"
+        else:
+            required_creditMemo = "No"
 
 
-
-        # Converting the necessary values to strings
-        Filename = str(filename)
-        Datesent = str(call_dateSent)
-        Taxcenter = str(call_taxCenter)
-        Due = str(call_due)
-        Acts = str(call_acts)
-        Requested = str(call_requested)
-
-
-        #hold until move confirmed valid
+        ##########---------- SIN Starts ----------##########
         call_SIN_param1 = extract_var(string, "SIN ")
         call_SIN_param2 = extract_var(string, "SIN:")
         call_SIN_param3 = extract_var(string, "insurance number")
@@ -752,6 +791,7 @@ class Parse:
         call_SIN_param5 = extract_var(string, "S.I.N.")
         call_SIN_param6 = extract_var(string, "insurance number:")
 
+        #The following changes commonly found errors to improve accuracy
         if call_SIN_param1 == "Yes":
             SIN = retriveAll(string, "SIN ", 17)
             SIN = SIN.replace("o", "0")
@@ -820,15 +860,17 @@ class Parse:
             SIN = SINfind
             print(SINfind)
 
-        # numSum_SIN = 0
-        # numSum_SIN = sum(x.isdigit() for x in SIN)
-        # if numSum_SIN <4:
-        #     SIN = "null"
 
+        # Converting the necessary values to strings
+        Filename = str(filename)
+        Datesent = str(call_dateSent)
+        Taxcenter = str(call_taxCenter)
+        Due = str(call_due)
+        Acts = str(call_acts)
+        Requested = str(call_requested)
         Callfor = str(call_callFor)
         LOB = str(call_letterTitle)
         requestingBody = str(call_requestingBody)
-
         option_clientprofile = str(option_clientprofile)
 
 
@@ -838,7 +880,6 @@ class Parse:
         required_certCheques = str(call_certCheques)
         required_deposits = str(call_depositReq)
         required_withdrawls = str(call_withdrawlsReq)
-        required_creditMemo = str(call_creditMemo)
         required_transfersIn = str(call_transfersIn)
         required_transfersOut = str(call_transfersOut)
         required_wiresIn = str(call_wiresIn)
@@ -884,6 +925,8 @@ class Parse:
 
         if  call_AddressedTo_param2 == "Yes":
             required_DOB = "null"
+
+        #####Following is a sequence of string cleaning sequences
 
         # Cleaning the variables for display within the outputted file
         monthPat1 = r"January"
@@ -947,40 +990,6 @@ class Parse:
         LOB = LOB.split(sep, 2)[0]
         LOB = "TD " + LOB
 
-        # #DOB Cleaning
-        #required_DOB = str(required_DOB)
-        # required_DOB = re.sub(fullForPat, "", required_DOB)
-        # required_DOB = re.sub("birth", "", required_DOB)
-        # required_DOB = re.sub("DOB", "", required_DOB)
-        # required_DOB = re.sub("D.O.B.", "", required_DOB)
-        # required_DOB = re.sub("date", "", required_DOB)
-        # required_DOB = re.sub("of", "", required_DOB)
-        # required_DOB = re.sub(":", "", required_DOB)
-        # required_DOB = re.sub("is", "", required_DOB)
-        # required_DOB = re.sub(";", "", required_DOB)
-        # required_DOB = re.sub("social", "", required_DOB)
-
-        # sep = 'SIN'
-        # required_DOB = re.split(sep, required_DOB, flags=re.IGNORECASE)[0]
-        #
-        # sep2 = 'Dear'
-        # required_DOB = re.split(sep2, required_DOB, flags=re.IGNORECASE)[0]
-        #
-        # sep3 = 'and'
-        # required_DOB = re.split(sep3, required_DOB, flags=re.IGNORECASE)[0]
-        #
-        # sep4 = 'within'
-        # required_DOB = re.split(sep4, required_DOB, flags=re.IGNORECASE)[0]
-        #
-        # sep5 = 'in'
-        # required_DOB = re.split(sep5, required_DOB, flags=re.IGNORECASE)[0]
-        #
-        # sep6 = 'all'
-        # required_DOB = re.split(sep6, required_DOB, flags=re.IGNORECASE)[0]
-        #
-        #
-        # required_DOB = re.split(r"\)", required_DOB, flags=re.IGNORECASE)[0]
-
         #AdressedTo Cleaning
         AddressedTo = str(AddressedTo)
         AddressedTo = re.sub(fullForPat, "", AddressedTo)
@@ -1004,6 +1013,8 @@ class Parse:
         else:
             AddressedTo = head
 
+        #This is the current way that the variables are passed to an array to be printed into a csv
+        # TO-DO : Please change amazingly inefficient
         var_list = [filename,
                     #LOB, Datesent,
                     call_currTime, AddressedTo,
@@ -1011,7 +1022,7 @@ class Parse:
                     #Due,Taxcenter, Acts, Requested,Callfor, requestingBody,
                     option_clientprofile, required_knowCustomer, required_daysBetween,
                     required_openclose, required_accountStatements, required_chequeSides, amt_chequeSides,
-                    required_chequesCancelled,amt_chequesCancelled,amt_bankDraft, required_certCheques,amt_certCheques,
+                    required_chequesCancelled,amt_chequesCancelled, required_bankDrafts, amt_bankDraft, required_certCheques,amt_certCheques,
                     required_deposits, required_depositSlips, amt_deposits, required_withdrawls, required_withdrawlSlips, amt_withdrawls,"", required_creditMemo,
                     required_debitMemo,amt_debitMemo, required_transfersIn, amt_transfersIn, required_transfersOut, amt_transferOut,
                     required_wiresIn,amt_wiresIn, required_wiresOut, amt_wiresOut, required_liabilityApplications,
@@ -1020,6 +1031,7 @@ class Parse:
                     required_termDeposits, required_investments, required_guaranteedInvestments, required_mutualFunds,
                     required_investmentAccounts, required_sigCards, required_safetyDeposit, required_GIC, required_RRIF, required_RRSP, required_RSP, required_RESP,required_TFSA,amount_alberta_deposits
                     ]
-        #print(var_list)
+        #Create an instance of Collector in the Main.py
         collect = Collector()
+        #Pass the var_list created to the english collector in Collect Main.py
         collect._english_collector(var_list, passedLoc)
