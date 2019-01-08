@@ -3,11 +3,11 @@ import matplotlib as mpl
 if os.environ.get('DISPLAY','') == '':
     print('no display found. Using non-interactive Agg backend')
     mpl.use('Agg')
-import matplotlib.pyplot as plt
+
 
 #####################DO NOT REMOVE###############################
 ##                                                             ##
-##          DEVELOPED BY WAUN BRODERICK & MUDIT SHARMA         ##
+##                DEVELOPED BY WAUN BRODERICK                  ##
 ##     PERSONAL BANKING - PERFORMANCE INTEGRITY OPERATIONS     ##
 ##                                                             ##
 ##                         08/2018                             ##
@@ -22,14 +22,11 @@ from Builder import *
 
 #Tkinter Graphical assets
 from tkinter import Tk, Label, Button, filedialog, messagebox
-from tkinter.ttk import Progressbar
 from tkinter import *
 
 #Imports for the local classes, methods and functions within this file
 from PIL import ImageTk, Image
 import csv
-import threading
-import time
 
 #Class responsible for building the graphical user interface for INPROD
 class INPRODGUI:
@@ -81,11 +78,12 @@ class INPRODGUI:
         #Variable check boxes for implemented Quality Control Measures
         CheckVar1 = IntVar()
 
+        #SHUT OFF CURRENTLY - NOT NEEDED IN FIRST POC DEPLOYMENT
         #Accuracy tuning checkbox
-        C1 = Checkbutton(master, text="Accuracy Tuner", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
+        #C1 = Checkbutton(master, text="Accuracy Tuner", variable=CheckVar1, onvalue=1, offvalue=0, height=0, width=0)
 
         #
-        C1.place(x=200,y=340)
+        #C1.place(x=200,y=340)
 
         #
         self.trainFont_button = Button(master, text="Train Font", command=self.trainFont)
@@ -95,30 +93,12 @@ class INPRODGUI:
         self.execute_button = Button(master, text="Execute", command=self.execute)
         self.execute_button.place(x=215,y=410)
 
-
-        self.progress = Progressbar(master, orient=HORIZONTAL, length=350, mode='indeterminate')
-        self.progress.place(x=85, y=460)
-
         self.close_button = Button(master, text="Exit", command=master.quit)
         self.close_button.place(x=230,y=500)
 
     def func(self, value):
         print(value)
 
-    #Progress bar functionality
-    def traitement(self):
-        def real_traitement():
-            self.progress.grid(row=1, column=0)
-            self.progress.start()
-            time.sleep(5)
-            self.progress.stop()
-            self.progress.grid_forget()
-
-            self.btn['state'] = 'normal'
-
-        self.btn['state'] = 'disabled'
-        threading.Thread(target=real_traitement).start()
-    #selecting the Scan directory functionality
     def scanDir(self):
         scanDir_selected = filedialog.askdirectory()
         self._global_scanDir_(scanDir_selected)

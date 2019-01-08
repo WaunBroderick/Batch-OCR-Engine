@@ -124,13 +124,14 @@ class Sort:
                    #"Date Due","Tax Center", "Subsections", "Raw Information","Information For", "Agency",
                    "//Client Profile", "//Know your customer", "//Days Between", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
                    "//AMT PLACE HOLDER", "Cancelled Cheques","AMT PLACE HOLDER", "Bank Drafts",
-                   "//AMT PLACE HOLDER","Certified Cheques","//AMT PLACE HOLDER", "//Deposits","//AMT PLACE HOLDER",
-                   "Withdrawls","//AMT PLACE HOLDER","Last # deposits", "Credit Memos","Debit Memos",
+                   "//AMT PLACE HOLDER","Certified Cheques","//AMT PLACE HOLDER", "//Deposits","Deposit Slips", "//AMT PLACE HOLDER",
+                   "Withdrawls", "Withdrawl Slips","//AMT PLACE HOLDER","Last # deposits", "Credit Memos","Debit Memos",
                    "//AMT PLACE HOLDER", "Transfers into Acc","//AMT PLACE HOLDER","Transfers out of Account", "//AMT PLACE HOLDER",
                    "Wires into Acc","//AMT PLACE HOLDER", "Wires out of Acc", "//AMT PLACE HOLDER",
                    "Liability Applications", "Liability Statements", "Mortgage Applications", "Mortgage Statements",
-                   "Loan Applications", "Loan Statements", "Credit Card Statements", "Credit Card Approvals",
-                   "Term Deposits", "Guaranteed Investments", "Mutual Funds", "investment Acounts", "RRSP", "RSP",
+                   "Loan Applications", "Loan Statements", "Credit Card Applications","Credit Card Statements", "Credit Card Approvals",
+                   "Term Deposits", "investments", "Mutual Funds", "investment Acounts",
+                   "Signature Cards", "Safety Deposit", "GIC","RRIF", "RRSP", "RSP",
                    "RESP", "TFSA",
                     ]
         with open(directory + '/eng-final.csv', 'a') as csvFile:

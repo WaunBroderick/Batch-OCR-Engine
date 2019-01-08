@@ -118,7 +118,7 @@ class Build():
         for filename in os.listdir(directory):
             if filename.endswith(".pdf"):
                 #utilize wand to convert the pdfs into resolution 500 images and move them to a new directory with .jpg format
-                pdf = wi(filename = directory + filename, resolution=500)
+                pdf = wi(filename = directory + filename, resolution=800)
                 corename = os.path.splitext(filename)[0]
                 pdfImage = pdf.save(filename= outDir + "/images/" + corename + '.jpg')
 
