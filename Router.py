@@ -117,22 +117,8 @@ class Sort:
 
         directory = (OUTSTR + "/completed/")
 
-        headers = ["filename",
-                   #"Letter Title", "date sent",
-                   "date recieved",
-                   "Customer Name", "Social Insurance Number","Corporate Number", "Date Of Birth",
-                   #"Date Due","Tax Center", "Subsections", "Raw Information","Information For", "Agency",
-                   "//Client Profile", "//Know your customer", "//Days Between", "Opening and Closing of Accounts","Statements of Account", "Both sides of Cheques",
-                   "//AMT PLACE HOLDER", "Cancelled Cheques","AMT PLACE HOLDER", "Bank Drafts",
-                   "//AMT PLACE HOLDER","Certified Cheques","//AMT PLACE HOLDER", "//Deposits","Deposit Slips", "//AMT PLACE HOLDER",
-                   "Withdrawls", "Withdrawl Slips","//AMT PLACE HOLDER","Last # deposits", "Credit Memos","Debit Memos",
-                   "//AMT PLACE HOLDER", "Transfers into Acc","//AMT PLACE HOLDER","Transfers out of Account", "//AMT PLACE HOLDER",
-                   "Wires into Acc","//AMT PLACE HOLDER", "Wires out of Acc", "//AMT PLACE HOLDER",
-                   "Liability Applications", "Liability Statements", "Mortgage Applications", "Mortgage Statements",
-                   "Loan Applications", "Loan Statements", "Credit Card Applications","Credit Card Statements", "Credit Card Approvals",
-                   "Term Deposits", "investments", "Mutual Funds", "investment Acounts",
-                   "Signature Cards", "Safety Deposit", "GIC","RRIF", "RRSP", "RSP",
-                   "RESP", "TFSA",
+        headers = [
+            'List of Columns'
                     ]
         with open(directory + '/eng-final.csv', 'a') as csvFile:
             writer = csv.writer(csvFile, delimiter=",")
@@ -140,7 +126,7 @@ class Sort:
 
         for filename in os.listdir(directory):
             if SELECTION == "RFI":
-                parse._CRA_main_(filename, directory)
+                parse._function_bank_(filename, directory)
             elif SELECTION == "Audit":
                 messagebox.showinfo("Process Selection", "Audit is not implemented yet, please restart and try a different process")
                 sys.exit()
