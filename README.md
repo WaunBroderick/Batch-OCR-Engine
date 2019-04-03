@@ -2,31 +2,27 @@
 <HTML>
   <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Source code for the inprod project">
+  <meta name="description" content="Source code for the Batch-OCR-Engine project">
   <meta name="keywords" content="Python, OCR, NLP, NLTK, Computer, Vision, Document, AI, Tesseract, OpenCV">
   <meta name="author" content="Waun Broderick">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-  <h1>INPROD</h1>
+  <h1>Batch-OCR-Engine</h1>
   
 [![Build Status](https://travis-ci.com/WaunBroderick/INPROD.svg?branch=master)](https://travis-ci.com/WaunBroderick/INPROD)
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg)
 
 
-
   <center>
-  <img src="props/inprod-logo.png" alt="INPROD logo" height="410" width="340">
-  </center>
-  <center>
-    <h2>Created by Waun Broderick and Mudit Sharma</h2>
+    <h2>Created by Waun Broderick </h2>
     <h4>Written in Python3.6.6</h4>
     <p>
-      INPROD tool uses OCR (Optical Character Recognition) to first read in all the words from a document and then uses NLP (Natural Language Processing) to pick necessary information for future actions. Currently it's in the process of automating Request For Information processes where TD Bank sends detailed information to Government agencies. This is the first use case for INPROD but it can be potentially used anywhere and everywhere a documents needs to be read as part of a business process.
+      Batch-OCR-Engine tool uses OCR (Optical Character Recognition) to first read in all the words from a document and then uses NLP (Natural Language Processing) to pick necessary information for future actions. Currently it's in the process of automating Request For Information processes where TD Bank sends detailed information to Government agencies. This is the first use case for Batch-OCR-Engine but it can be potentially used anywhere and everywhere a documents needs to be read as part of a business process.
 
  
 
-Some future applications of INPROD are in reading return mail addresses, automatically creating summaries from credit applications, checking accuracy and details from uploaded documents and much much more. The tool has simple intuitive User interface for users with range of digital literacy.</center>
+Some future applications of Batch-OCR-Engine are in reading return mail addresses, automatically creating summaries from credit applications, checking accuracy and details from uploaded documents and much much more. The tool has simple intuitive User interface for users with range of digital literacy.</center>
   
   
   <center><p>
@@ -34,7 +30,7 @@ Some future applications of INPROD are in reading return mail addresses, automat
 
  
 
-INPROD has met the short term objective of demonstrating value of an AI based document reader but it will inculcate future advanced and differing requirements of different processes to become even more effective in future.
+Batch-OCR-Engine has met the short term objective of demonstrating value of an AI based document reader but it will inculcate future advanced and differing requirements of different processes to become even more effective in future.
 
  
   </p></center>
